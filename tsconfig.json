@@ -21,8 +21,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-  ],
+    "**/*.tsx",
+    "backend/user/user.js", "pages/dashboard.js", "pages/api/user/forgotpwd.js", "pages/api/user/authenticate.js", "pages/login.js"  ],
   "exclude": [
     "node_modules"
   ]
