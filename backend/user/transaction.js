@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import Nano from "nano";
 const nano = Nano(String(process.env.DBURL));
-const mail = require("../utilities/mail");
+//const mail = require("../utilities/mail");
 
 /* interface User {
 _id:string;
@@ -14,41 +14,17 @@ email?:string;
 }
  */
 /**
- * This function is used to Create new User record
- * 1. New User record in _Users table
- * 2. New Database created for the user with the name same as UserName
- * 3. Roles are updated for the new Database to allow the User & Admin credentials to access it
+ * This function is used to Create new Transaction record
+ * 1. New Transaction record in UserDatabase table
  */
-export async function create(user) {
+export async function add(transaction) {
   try {
-    let record = {};
-    record.name = user.name.substring(0, user.name.lastIndexOf("@"));
-    record._id = "org.couchdb.user:" + record.name;
-    record.roles = ["user"];
-    record.type = "user";
-    record.email = user.name;
-    record.password = user.password;
-
-    const userDB = nano.use("_users");
-    console.log(`Creating user record : ${JSON.stringify(record)}`);
+    const userDB = nano.use(transaction.dbname);
+    console.log(`Creating transaction record : ${JSON.stringify(record)}`);
     const insertResponse = await userDB.insert(record);
-    console.log(`Create user response : ` + JSON.stringify(insertResponse));
-    const databaseResponse = await nano.db.create(record.name);
     console.log(
-      `Create database response : ` + JSON.stringify(databaseResponse)
+      `Create transaction response : ${JSON.stringify(insertResponse)}`
     );
-    const rolesResponse = await nano.request({
-      db: record.name,
-      method: "put",
-      path: "/_security",
-      body: {
-        admins: { names: ["techadmin"], roles: ["_admin"] },
-        members: { names: [record.name], roles: ["_user"] },
-      },
-    });
-
-    mail.createContact(record);
-    console.log(`Result : ` + JSON.stringify(rolesResponse));
   } catch (e) {
     console.log(`Exception while creating user database ${e}`);
   }
@@ -59,15 +35,15 @@ export async function create(user) {
  * 1. Delete User record in _Users table
  * 2. Delete User Database named same as UserName
  */
-export async function deleteData(user) {
-  let record = {};
-  record.name = user.name.substring(0, user.name.lastIndexOf("@"));
-  record._id = "org.couchdb.user:" + record.name;
+export async function deleteData(transaction) {
   try {
-    const deleteDataResponse = await nano.db.destroy(record.name);
+    const userDB = nano.use(transaction.dbname);
+    console.log(`Deleting transaction record : ${JSON.stringify(record)}`);
+    const insertResponse = await userDB.insert(record);
     console.log(
-      `Delete user database response : ${JSON.stringify(deleteDataResponse)}`
+      `Create transaction response : ${JSON.stringify(insertResponse)}`
     );
+
     const userDB = nano.use("_users");
     const doc = userDB.get(record._id);
     const deleteUserResponse = await userDB.destroy(
