@@ -2,10 +2,13 @@ import Head from "next/head";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import Link from "next/link";
 
 const navigation = ["Home", "Transaction", "Budget", "Reports"];
+const navigationValues = ["/home", "/transaction", "/home", "/home"];
 const profile = ["Your Profile", "Settings", "Sign out"];
 const features = ["Categories", "Rules", "Accounts", "Goals", "Budget"];
+const featuresValues = ["/categories", "/home", "/accounts", "/home", "/home"];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -31,13 +34,14 @@ function navbar() {
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {navigation.map((item, itemIdx) => (
-                        <a
-                          key={item}
-                          href="#"
-                          className="text-gray-00 hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                        >
-                          {item}
-                        </a>
+                        <Link href={navigationValues[itemIdx]}>
+                          <a
+                            key={item}
+                            className="text-gray-00 hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                          >
+                            {item}
+                          </a>
+                        </Link>
                       ))}
 
                       <Menu as="div" className="relative">
@@ -61,18 +65,19 @@ function navbar() {
                                   static
                                   className="origin-top-right absolute left-0 mt-2 w-48 rounded-md shadow-sm py-1 bg-white focus:outline-none"
                                 >
-                                  {features.map((item) => (
+                                  {features.map((item, itemIdx) => (
                                     <Menu.Item key={item}>
                                       {({ active }) => (
-                                        <a
-                                          href="#"
-                                          className={classNames(
-                                            active ? "bg-gray-50" : "",
-                                            "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-600 hover:text-white "
-                                          )}
-                                        >
-                                          {item}
-                                        </a>
+                                        <Link href={featuresValues[itemIdx]}>
+                                          <a
+                                            className={classNames(
+                                              active ? "bg-gray-50" : "",
+                                              "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-600 hover:text-white "
+                                            )}
+                                          >
+                                            {item}
+                                          </a>
+                                        </Link>
                                       )}
                                     </Menu.Item>
                                   ))}
