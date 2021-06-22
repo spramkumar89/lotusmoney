@@ -10,6 +10,7 @@
   "dependencies": {
     "@headlessui/react": "^1.2.0",
     "@heroicons/react": "^1.0.1",
+    "@tailwindcss/forms": "^0.3.3",
     "chart.js": "^3.3.2",
     "dotenv": "^10.0.0",
     "nano": "^9.0.3",
