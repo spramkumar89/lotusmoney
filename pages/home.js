@@ -17,23 +17,23 @@ export default function home() {
         </div>
       </header>
       */}
-      <main class="bg-gray-50">
+      <main className="bg-gray-50">
         <div className="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
           {/* Replace with your content */}
-          <div class="flex flex-row text-gray-600">
-            <div class="flex-none w-1/4 hidden md:block m-2">
-              <div class="grid grid-flow-row gap-4">
+          <div className="flex flex-row text-gray-600">
+            <div className="flex-none w-1/4 hidden md:block m-2">
+              <div className="grid grid-flow-row gap-4">
                 <TopTransactions />
                 <Categories />
               </div>
             </div>
-            <div class="flex-auto p-2">
-              <div class="grid grid-flow-row gap-4">
+            <div className="flex-auto p-2">
+              <div className="grid grid-flow-row gap-4">
                 <Chart />
                 <Transactions />
               </div>
             </div>
-            <div class="flex-none w-1/4 hidden md:block p-2">
+            <div className="flex-none w-1/4 hidden md:block p-2">
               <Uncategorized />
             </div>
           </div>

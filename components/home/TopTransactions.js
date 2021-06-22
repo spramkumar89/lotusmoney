@@ -1,24 +1,24 @@
 function toptransactions() {
   return (
-    <div class="bg-gray-100 rounded-lg shadow-md p-2">
-      <div class="flex justify-center font-semibold text-blue-500">
+    <div className="bg-gray-100 rounded-lg shadow-md p-2">
+      <div className="flex justify-center font-semibold text-blue-500">
         Top 10 Transactions
       </div>
-      <div class="flex justify-between items-center">
-        <div class="flex-initial w-3/4">Internet Bill</div>
-        <div class="text-green-500">100</div>
+      <div className="flex justify-between items-center">
+        <div className="flex-initial w-3/4">Internet Bill</div>
+        <div className="text-green-500">100</div>
       </div>
-      <div class="flex justify-between items-center">
-        <div class="flex-initial w-3/4">Electricity Bill</div>
-        <div class="text-red-500">100</div>
+      <div className="flex justify-between items-center">
+        <div className="flex-initial w-3/4">Electricity Bill</div>
+        <div className="text-red-500">100</div>
       </div>
-      <div class="flex justify-between items-center">
-        <div class="flex-initial w-3/4">Telephone Bill</div>
-        <div class="text-red-500">100</div>
+      <div className="flex justify-between items-center">
+        <div className="flex-initial w-3/4">Telephone Bill</div>
+        <div className="text-red-500">100</div>
       </div>
-      <div class="flex justify-between items-center">
-        <div class="flex-initial w-3/4">Petrol</div>
-        <div class="text-red-500">100</div>
+      <div className="flex justify-between items-center">
+        <div className="flex-initial w-3/4">Petrol</div>
+        <div className="text-red-500">100</div>
       </div>
     </div>
   );

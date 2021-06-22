@@ -13,11 +13,11 @@ const data = {
 
 function chart() {
   return (
-    <div class="flex flex-col justify-center items-center lg:flex-row bg-gray-100 h-auto shadow-md">
-      <div class="rounded-lg p-2 w-1/2">
+    <div className="flex flex-col justify-center items-center lg:flex-row bg-gray-100 h-auto shadow-md">
+      <div className="rounded-lg p-2 w-1/2">
         <Pie data={data} />
       </div>
-      <div class="rounded-lg p-2 w-1/2">
+      <div className="rounded-lg p-2 w-1/2">
         <Pie data={data} />
       </div>
     </div>
