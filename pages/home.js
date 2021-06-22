@@ -2,6 +2,18 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { Pie } from "react-chartjs-2";
+
+const data = {
+  labels: ["Red", "Blue", "Yellow"],
+  datasets: [
+    {
+      data: [300, 50, 100],
+      backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+      hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+    },
+  ],
+};
 
 const navigation = ["Home", "Transaction", "Features", "Budget", "Reports"];
 const profile = ["Your Profile", "Settings", "Sign out"];
@@ -195,137 +207,167 @@ export default function home() {
       <main class="bg-gray-50">
         <div className="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
           {/* Replace with your content */}
-          <div class="flex flex-row">
+          <div class="flex flex-row text-gray-600">
             <div class="flex-none w-1/4 hidden md:block m-2">
               <div class="grid grid-flow-row gap-4">
                 <div class="bg-gray-100 rounded-lg shadow-md p-2">
-                  <div id="header">
-                    <div id="header-text" class="leading-5 sm text-gray-500">
-                      <h4 id="name" class="text-xl font-semibold">
-                        John Doe
-                      </h4>
-                    </div>
+                  <div class="flex justify-center font-semibold text-blue-500">
+                    Top 10 Transactions
                   </div>
-                  <div id="quote">
-                    <q class="italic text-gray-500">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.
-                    </q>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Internet Bill</div>
+                    <div class="text-green-500">100</div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Electricity Bill</div>
+                    <div class="text-red-500">100</div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Telephone Bill</div>
+                    <div class="text-red-500">100</div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Petrol</div>
+                    <div class="text-red-500">100</div>
                   </div>
                 </div>
                 <div class="bg-gray-100 rounded-lg shadow-md p-2">
-                  <div id="header">
-                    <div id="header-text" class="leading-5 sm text-gray-500">
-                      <h4 id="name" class="text-xl font-semibold">
-                        John Doe
-                      </h4>
-                    </div>
+                  <div class="flex justify-center font-semibold text-blue-500">
+                    Categories
                   </div>
-                  <div id="quote">
-                    <q class="italic text-gray-500">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.
-                    </q>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Internet Bill</div>
+                    <div class="text-green-500">100</div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Electricity Bill</div>
+                    <div class="text-red-500">100</div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Telephone Bill</div>
+                    <div class="text-red-500">100</div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Petrol</div>
+                    <div class="text-red-500">100</div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="flex-auto p-2">
               <div class="grid grid-flow-row gap-4">
-                <div class="bg-gray-100 rounded-lg shadow-md p-2">
-                  <div id="header">
-                    <div id="header-text" class="leading-5 sm text-gray-500">
-                      <h4 id="name" class="text-xl font-semibold">
-                        John Doe
-                      </h4>
-                    </div>
+                <div class="flex flex-col justify-center items-center lg:flex-row bg-gray-100 h-auto shadow-md">
+                  <div class="rounded-lg p-2 w-1/2">
+                    <Pie data={data} />
                   </div>
-                  <div id="quote">
-                    <q class="italic text-gray-500">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
-                      elit, sed do eiusmod tempor incididunt ut labore et dolore
-                      magna aliqua.Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.Lorem ipsum dolor sit amet,
-                      consectetur adipiscing elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua.Lorem ipsum
-                      dolor sit amet, consectetur adipiscing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
-                      elit, sed do eiusmod tempor incididunt ut labore et dolore
-                      magna aliqua.Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.
-                    </q>
+                  <div class="rounded-lg p-2 w-1/2">
+                    <Pie data={data} />
                   </div>
                 </div>
                 <div class="bg-gray-100 rounded-lg shadow-md p-2">
-                  <div id="header">
-                    <div id="header-text" class="leading-5 sm text-gray-500">
-                      <h4 id="name" class="text-xl font-semibold">
-                        John Doe
-                      </h4>
-                    </div>
-                  </div>
-                  <div id="quote">
-                    <q class="italic text-gray-500">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
-                      elit, sed do eiusmod tempor incididunt ut labore et dolore
-                      magna aliqua.Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.Lorem ipsum dolor sit amet,
-                      consectetur adipiscing elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua.Lorem ipsum
-                      dolor sit amet, consectetur adipiscing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
-                      elit, sed do eiusmod tempor incididunt ut labore et dolore
-                      magna aliqua.Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.Lorem ipsum dolor sit amet,
-                      consectetur adipiscing elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua.Lorem ipsum
-                      dolor sit amet, consectetur adipiscing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
-                      elit, sed do eiusmod tempor incididunt ut labore et dolore
-                      magna aliqua.Lorem ipsum dolor sit amet, consectetur
-                      adipiscing elit, sed do eiusmod tempor incididunt ut
-                      labore et dolore magna aliqua.Lorem ipsum dolor sit amet,
-                      consectetur adipiscing elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua.Lorem ipsum
-                      dolor sit amet, consectetur adipiscing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
-                      elit, sed do eiusmod tempor incididunt ut labore et dolore
-                      magna aliqua.
-                    </q>
-                  </div>
+                  <table class="table-auto w-full">
+                    {/* <thead>
+                      <tr class="border-b-2 border-gray-300">
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Views</th>
+                      </tr>
+                    </thead> */}
+                    <tbody>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Adam</td>
+                        <td>Intro to CSS</td>
+                        <td>858</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Adam</td>
+                        <td>
+                          A Long and Winding Tour of the History of UIA Long and
+                        </td>
+                        <td>112</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Chris</td>
+                        <td>Intro to JavaScript</td>
+                        <td>1,280</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Adam</td>
+                        <td>Intro to CSS</td>
+                        <td>858</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Adam</td>
+                        <td>
+                          A Long and Winding Tour of the History of UIA Long and
+                        </td>
+                        <td>112</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Chris</td>
+                        <td>Intro to JavaScript</td>
+                        <td>1,280</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Adam</td>
+                        <td>Intro to CSS</td>
+                        <td>858</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Adam</td>
+                        <td>
+                          A Long and Winding Tour of the History of UIA Long and
+                        </td>
+                        <td>112</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Chris</td>
+                        <td>Intro to JavaScript</td>
+                        <td>1,280</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Adam</td>
+                        <td>Intro to CSS</td>
+                        <td>858</td>
+                      </tr>
+                      <tr class="border-b-2 border-gray-200 px-3">
+                        <td>Adam</td>
+                        <td>
+                          A Long and Winding Tour of the History of UIA Long and
+                        </td>
+                        <td>112</td>
+                      </tr>
+                      <tr class="px-3">
+                        <td>Chris</td>
+                        <td>Intro to JavaScript</td>
+                        <td>1,280</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
             <div class="flex-none w-1/4 hidden md:block p-2">
               <div class="grid grid-flow-row gap-4">
                 <div class="bg-gray-100 rounded-lg shadow-md p-2">
-                  <div id="header">
-                    <div id="header-text" class="leading-5 sm text-gray-500">
-                      <h4 id="name" class="text-xl font-semibold">
-                        John Doe
-                      </h4>
-                    </div>
+                  <div class="flex justify-center font-semibold text-blue-500">
+                    Uncategorised Transactions
                   </div>
-                  <div id="quote">
-                    <q class="italic text-gray-500">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.
-                    </q>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Internet Bill</div>
+                    <div class="text-green-500">100</div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Electricity Bill</div>
+                    <div class="text-red-500">100</div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Telephone Bill</div>
+                    <div class="text-red-500">100</div>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <div class="flex-initial w-3/4">Petrol</div>
+                    <div class="text-red-500">100</div>
                   </div>
                 </div>
               </div>
