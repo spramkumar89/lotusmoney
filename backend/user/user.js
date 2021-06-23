@@ -29,11 +29,11 @@ export async function create(user) {
     record.email = user.email;
     record.password = user.password;
 
-    const userDB = nano.use("_users");
+    let userDB = nano.use("_users");
     console.log(`Creating user record : ${JSON.stringify(record)}`);
-    const insertResponse = await userDB.insert(record);
+    let insertResponse = await userDB.insert(record);
     console.log(`Create user response : ` + JSON.stringify(insertResponse));
-    const databaseResponse = await nano.db.create(record.name);
+    let databaseResponse = await nano.db.create(record.name);
     console.log(
       `Create database response : ` + JSON.stringify(databaseResponse)
     );
@@ -46,6 +46,16 @@ export async function create(user) {
         members: { names: [record.name], roles: ["_user"] },
       },
     });
+
+    userDB = nano.use(record.name);
+    let userRecord = {
+      userName: record.name,
+      emailId: record.email,
+      categories: [],
+      accounts: [],
+      cards: [],
+    };
+    await userDB.insert(userRecord);
 
     //mail.createContact(record);
     console.log(`Result : ` + JSON.stringify(rolesResponse));
