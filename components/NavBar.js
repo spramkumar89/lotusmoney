@@ -35,11 +35,8 @@ function navbar() {
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {navigation.map((item, itemIdx) => (
-                        <Link href={navigationValues[itemIdx]}>
-                          <a
-                            key={item}
-                            className="text-gray-00 hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                          >
+                        <Link key={item} href={navigationValues[itemIdx]}>
+                          <a className="text-gray-00 hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                             {item}
                           </a>
                         </Link>
@@ -69,7 +66,10 @@ function navbar() {
                                   {features.map((item, itemIdx) => (
                                     <Menu.Item key={item}>
                                       {({ active }) => (
-                                        <Link href={featuresValues[itemIdx]}>
+                                        <Link
+                                          key={featuresValues[itemIdx]}
+                                          href={featuresValues[itemIdx]}
+                                        >
                                           <a
                                             className={classNames(
                                               active ? "bg-gray-50" : "",
@@ -129,7 +129,7 @@ function navbar() {
                               {profile.map((item, itemIdx) => (
                                 <Menu.Item key={item}>
                                   {({ active }) => (
-                                    <Link href="/">
+                                    <Link key={item} href="/">
                                       <a
                                         className={classNames(
                                           active ? "bg-gray-50" : "",
@@ -166,13 +166,11 @@ function navbar() {
             <Disclosure.Panel className="md:hidden">
               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 {navigation.map((item, itemIdx) => (
-                  <a
-                    key={item}
-                    href="#"
-                    className="text-gray-00 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                  >
-                    {item}
-                  </a>
+                  <Link key={item} href="#">
+                    <a className="text-gray-00 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                      {item}
+                    </a>
+                  </Link>
                 ))}
               </div>
               <div className="pt-4 pb-3 border-t border-gray-700">
@@ -199,13 +197,11 @@ function navbar() {
                 </div>
                 <div className="mt-3 px-2 space-y-1">
                   {profile.map((item) => (
-                    <a
-                      key={item}
-                      href="#"
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                    >
-                      {item}
-                    </a>
+                    <Link key={item} href="#">
+                      <a className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">
+                        {item}
+                      </a>
+                    </Link>
                   ))}
                 </div>
               </div>
