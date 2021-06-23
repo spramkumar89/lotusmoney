@@ -7,6 +7,7 @@ import Link from "next/link";
 const navigation = ["Home", "Transaction", "Budget", "Reports"];
 const navigationValues = ["/home", "/transaction", "/home", "/home"];
 const profile = ["Your Profile", "Settings", "Sign out"];
+const profileValues = ["/home", "/home", "/"];
 const features = ["Categories", "Rules", "Accounts", "Goals", "Budget"];
 const featuresValues = ["/categories", "/home", "/accounts", "/home", "/home"];
 
@@ -125,18 +126,19 @@ function navbar() {
                               static
                               className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-sm py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                             >
-                              {profile.map((item) => (
+                              {profile.map((item, itemIdx) => (
                                 <Menu.Item key={item}>
                                   {({ active }) => (
-                                    <a
-                                      href="#"
-                                      className={classNames(
-                                        active ? "bg-gray-50" : "",
-                                        "block px-4 py-2 text-sm text-gray-700"
-                                      )}
-                                    >
-                                      {item}
-                                    </a>
+                                    <Link href="/">
+                                      <a
+                                        className={classNames(
+                                          active ? "bg-gray-50" : "",
+                                          "block px-4 py-2 text-sm text-gray-700"
+                                        )}
+                                      >
+                                        {item}
+                                      </a>
+                                    </Link>
                                   )}
                                 </Menu.Item>
                               ))}

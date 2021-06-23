@@ -22,11 +22,11 @@ email?:string;
 export async function create(user) {
   try {
     let record = {};
-    record.name = user.name.substring(0, user.name.lastIndexOf("@"));
+    record.name = user.email.substring(0, user.email.lastIndexOf("@"));
     record._id = "org.couchdb.user:" + record.name;
     record.roles = ["user"];
     record.type = "user";
-    record.email = user.name;
+    record.email = user.email;
     record.password = user.password;
 
     const userDB = nano.use("_users");
@@ -47,10 +47,12 @@ export async function create(user) {
       },
     });
 
-    mail.createContact(record);
+    //mail.createContact(record);
     console.log(`Result : ` + JSON.stringify(rolesResponse));
+    return rolesResponse;
   } catch (e) {
     console.log(`Exception while creating user database ${e}`);
+    return e;
   }
 }
 
@@ -61,16 +63,16 @@ export async function create(user) {
  */
 export async function deleteData(user) {
   let record = {};
-  record.name = user.name.substring(0, user.name.lastIndexOf("@"));
+  record.name = user.email.substring(0, user.email.lastIndexOf("@"));
   record._id = "org.couchdb.user:" + record.name;
   try {
-    const deleteDataResponse = await nano.db.destroy(record.name);
+    let deleteDataResponse = await nano.db.destroy(record.name);
     console.log(
       `Delete user database response : ${JSON.stringify(deleteDataResponse)}`
     );
-    const userDB = nano.use("_users");
-    const doc = userDB.get(record._id);
-    const deleteUserResponse = await userDB.destroy(
+    let userDB = nano.use("_users");
+    let doc = userDB.get(record._id);
+    let deleteUserResponse = await userDB.destroy(
       (
         await doc
       )._id,
@@ -81,8 +83,10 @@ export async function deleteData(user) {
     console.log(
       `Delete user record response : ${JSON.stringify(deleteUserResponse)}`
     );
+    return deleteUserResponse;
   } catch (e) {
     console.log(`Deleting user database and record ${e}`);
+    return e;
   }
 }
 
@@ -92,17 +96,20 @@ export async function deleteData(user) {
  * 2. Delete User Database named same as UserName
  */
 export async function update(user) {
+  user.name = user.email.substring(0, user.email.lastIndexOf("@"));
   user._id = "org.couchdb.user:" + user.name;
   try {
     const userDB = nano.use("_users");
     let doc = await userDB.get(user._id);
     Object.assign(doc, user);
-    const userResponse = await userDB.insert(doc);
+    let userResponse = await userDB.insert(doc);
     console.log(
       `Updated user record response : ` + JSON.stringify(userResponse)
     );
+    return userResponse;
   } catch (e) {
     console.log(e);
+    return e;
   }
 }
 
@@ -110,13 +117,19 @@ export async function update(user) {
  * This function is used to Authenticate User
  */
 export async function authenticate(user) {
-  user._id = "org.couchdb.user:" + user.name;
+  console.log(`Inside create user api ${JSON.stringify(user)}`);
+  //let record = {};
+  user.name = user.email.substring(0, user.email.lastIndexOf("@"));
+  console.log(`Inside create user api ${user.name}`);
+  //record._id = "org.couchdb.user:" + user.name;
   try {
     const db = nano.use(user.name);
-    const response = await db.auth(user.name, user.password);
+    let response = await db.auth(user.name, user.password);
     console.log(`Authentication response : ` + JSON.stringify(response));
+    return response;
   } catch (e) {
     console.log(e);
+    return e;
   }
 }
 
