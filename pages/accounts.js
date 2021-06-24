@@ -1,6 +1,8 @@
 /* This example requires Tailwind CSS v2.0+ */
 import NavBar from "../components/NavBar";
+import AddAccounts from "../components/accounts/AddAccounts";
 import Accounts from "../components/accounts/Accounts";
+import AddCards from "../components/accounts/AddCards";
 import Cards from "../components/accounts/Cards";
 
 export default function home() {
@@ -18,20 +20,16 @@ export default function home() {
         <div className="max-w-md mx-auto py-2 sm:px-6 lg:px-8">
           {/* Replace with your content */}
           <div className="flex flex-col text-gray-600">
-            <div className="flex flex-row justify-between bg-blue-300 p-2 rounded-md items-center">
+            <AddAccounts />
+            <div className="flex flex-row justify-between bg-blue-300 p-2 rounded-md items-center m-2">
               <div className="pl-2">ACCOUNTS</div>
-              <div className="bg-blue-500 rounded-md px-4 text-indigo-100 pb-1">
-                +
-              </div>
             </div>
             <Accounts />
           </div>
           <div className="flex flex-col text-gray-600 mt-4">
-            <div className="flex flex-row justify-between bg-blue-300 p-2 rounded-md items-center">
+            <AddCards />
+            <div className="flex flex-row justify-between bg-blue-300 p-2 rounded-md items-center m-2">
               <div className="pl-2">CARDS</div>
-              <div className="bg-blue-500 rounded-md px-4 text-indigo-100 pb-1">
-                +
-              </div>
             </div>
             <Cards />
           </div>
