@@ -28,8 +28,10 @@ export async function add(dbname, transaction) {
     console.log(`Creating transaction record : ${JSON.stringify(transaction)}`);
     const res = await userDB.insert(transaction);
     console.log(`Create transaction response : ${JSON.stringify(res)}`);
+    return res;
   } catch (e) {
     console.log(`Exception while creating user transaction ${e}`);
+    return e;
   }
 }
 
