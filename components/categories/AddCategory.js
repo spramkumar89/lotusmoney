@@ -1,33 +1,32 @@
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
 
 function addcategory() {
   const router = useRouter();
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
 
-    fetch(
-      "/api/user/user?" +
-        new URLSearchParams({
-          email: e.target.email.value,
-          password: e.target.password.value,
-        }),
-      {
-        method: "GET",
-      }
-    )
+    fetch("/api/user/category", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        _id: "test",
+        categories: ["test1", "test2", "test3"],
+      }),
+    })
       .then((res) => {
         console.log(`Front end authentication response ${JSON.stringify(res)}`);
         if (res.ok) {
           console.log(`res ok ${res}`);
-          router.push("/home");
+          router.push("/categories");
         } else {
           console.log(`res ok else ${res}`);
-          router.push("/");
+          router.push("/categories");
         }
       })
       .catch((error) => {
         console.log(
-          `Front end authentication error response ${JSON.stringify(res)}`
+          `Front end authentication error response ${JSON.stringify(error)}`
         );
         router.push("/");
       });

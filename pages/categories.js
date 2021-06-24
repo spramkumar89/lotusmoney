@@ -11,7 +11,7 @@ export default function home() {
         <div className="grid grid-flow-col gap-4 max-w-lg mx-auto py-2 sm:px-6 lg:px-8">
           {/* Replace with your content */}
           <div className="flex flex-col text-gray-600 mt-2">
-            //asf
+            <AddCategory />
             <div className="flex flex-col text-gray-600 mt-2">
               <div className="flex flex-row bg-blue-300 p-2 rounded-md justify-center font-semibold uppercase text-yellow-50">
                 <div className="pl-2">Categories</div>

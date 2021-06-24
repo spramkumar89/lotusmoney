@@ -49,6 +49,8 @@ export async function create(user) {
 
     userDB = nano.use(record.name);
     let userRecord = {
+      _id: record.name,
+      docType: "userconfig",
       userName: record.name,
       emailId: record.email,
       categories: [],
@@ -56,6 +58,14 @@ export async function create(user) {
       cards: [],
     };
     await userDB.insert(userRecord);
+
+    let designdoc = {
+      updates: {
+        updateCategory:
+          "function(document, request){if (document != null){document['categories']=req.body.categories;return [document, 'Added the requested fields'];}return [null, 'No such document'];}",
+      },
+    };
+    await userDB.insert(designdoc, "_design/lotus");
 
     //mail.createContact(record);
     console.log(`Result : ` + JSON.stringify(rolesResponse));
