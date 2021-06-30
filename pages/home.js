@@ -6,7 +6,7 @@ import Chart from "../components/home/Chart";
 import Transactions from "../components/home/Transactions";
 import Uncategorized from "../components/home/Uncategorized";
 
-export default function home() {
+export default function home({ monthlytransactions }) {
   return (
     <div>
       <NavBar />
@@ -30,7 +30,7 @@ export default function home() {
             <div className="flex-auto p-2">
               <div className="grid grid-flow-row gap-4">
                 <Chart />
-                <Transactions />
+                <Transactions transactions={monthlytransactions} />
               </div>
             </div>
             <div className="flex-none w-1/4 hidden md:block p-2">
@@ -42,4 +42,25 @@ export default function home() {
       </main>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const response = await fetch(
+    "http://admin:password@localhost:5984/test/_design/lotus/_view/monthlytransactions"
+  );
+
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+
+  const res = await response.json();
+  console.log(`Monthly transaction response ${JSON.stringify(res)}`);
+  console.log(`Monthly transaction response row ${JSON.stringify(res.rows)}`);
+
+  return {
+    props: {
+      monthlytransactions: res.rows,
+    },
+  };
 }
