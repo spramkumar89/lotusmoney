@@ -46,7 +46,13 @@ export default function home({ monthlytransactions }) {
 
 export async function getServerSideProps() {
   const response = await fetch(
-    "http://admin:password@localhost:5984/test/_design/lotus/_view/monthlytransactions"
+    `http://admin:password@localhost:5984/test/_design/lotus/_view/monthlytransactions?startkey=["2021",\"${(
+      "0" +
+      (new Date().getMonth() + 1)
+    ).slice(-2)}\","01"]&endkey=["2021",\"${(
+      "0" +
+      (new Date().getMonth() + 1)
+    ).slice(-2)}\","31"]`
   );
 
   if (!response.ok) {

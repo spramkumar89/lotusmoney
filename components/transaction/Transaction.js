@@ -21,7 +21,7 @@ function transaction() {
         console.log(`Front end authentication response ${JSON.stringify(res)}`);
         if (res.ok) {
           console.log(`res ok ${res}`);
-          router.push("/transaction");
+          router.push("/home");
         } else {
           console.log(`res ok else ${res}`);
           router.push("/transaction");
