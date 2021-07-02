@@ -1,5 +1,5 @@
 function transactions({ transactions }) {
-  console.log(`Transactions in component ${JSON.stringify(transactions)}`);
+  //console.log(`Transactions in component ${JSON.stringify(transactions)}`);
   return (
     <div className="bg-gray-100 rounded-lg shadow-md p-2">
       <table className="table-auto w-full">

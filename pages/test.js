@@ -1,16 +1,13 @@
-async function test() {
-  const response = await fetch(
-    "http://admin:password@localhost:5984/test/_design/lotus/_view/monthlytransactions"
-  );
-
-  if (!response.ok) {
-    const message = `An error has occured: ${response.status}`;
-    throw new Error(message);
-  }
-
-  const res = await response.json();
-  console.log(`Monthly transaction response ${JSON.stringify(res)}`);
-  console.log(`Monthly transaction response row ${JSON.stringify(res.rows)}`);
+function test() {
+  let result = [{ Grocery: 200 }, { Shopping: 100 }, { Miscellaneous: 300 }];
+  result.map((category, key) => {
+    let cat = category;
+    console.log(
+      `key is ${key} result ${Object.keys(cat)[0]} value is ${
+        category[Object.keys(cat)[0]]
+      }`
+    );
+  });
 }
 
 test();

@@ -6,7 +6,11 @@ import Chart from "../components/home/Chart";
 import Transactions from "../components/home/Transactions";
 import Uncategorized from "../components/home/Uncategorized";
 
-export default function home({ monthlytransactions }) {
+export default function home({
+  monthlytransactions,
+  toptransactions,
+  categoryWiseAmounts,
+}) {
   return (
     <div>
       <NavBar />
@@ -23,8 +27,8 @@ export default function home({ monthlytransactions }) {
           <div className="flex flex-row text-gray-600">
             <div className="flex-none w-1/4 hidden md:block m-2">
               <div className="grid grid-flow-row gap-4">
-                <TopTransactions />
-                <Categories />
+                <TopTransactions transactions={toptransactions} />
+                <Categories categoryAmount={categoryWiseAmounts} />
               </div>
             </div>
             <div className="flex-auto p-2">
@@ -45,7 +49,7 @@ export default function home({ monthlytransactions }) {
 }
 
 export async function getServerSideProps() {
-  const response = await fetch(
+  const monthly_trans_res = await fetch(
     `http://admin:password@localhost:5984/test/_design/lotus/_view/monthlytransactions?startkey=["2021",\"${(
       "0" +
       (new Date().getMonth() + 1)
@@ -54,19 +58,62 @@ export async function getServerSideProps() {
       (new Date().getMonth() + 1)
     ).slice(-2)}\","31"]`
   );
-
-  if (!response.ok) {
-    const message = `An error has occured: ${response.status}`;
-    throw new Error(message);
+  if (!monthly_trans_res.ok) {
+    const message = `An error has occured: ${monthly_trans_res.status}`;
+    monthly_transaction_res.rows = "NO_TRANSACTIONS_AVAILABLE";
   }
+  const monthly_transaction_res = await monthly_trans_res.json();
+  //console.log(`Monthly transaction response row ${JSON.stringify(monthly_transaction_res.rows)}`);
 
-  const res = await response.json();
-  console.log(`Monthly transaction response ${JSON.stringify(res)}`);
-  console.log(`Monthly transaction response row ${JSON.stringify(res.rows)}`);
+  const top_trans_res = await fetch(
+    `http://admin:password@localhost:5984/test/_design/lotus/_view/toptransactions?descending=true&limit=5`
+  );
+  if (!top_trans_res.ok) {
+    const message = `An error has occured: ${top_trans_res.status}`;
+    top_transaction_res.rows = "NO_TRANSACTIONS_AVAILABLE";
+  }
+  const top_transaction_res = await top_trans_res.json();
+  //console.log(`Monthly transaction response row ${JSON.stringify(top_transaction_res.rows)}`);
+
+  let categoryWise = await loadCategoryValues();
+  //console.log(`categoryWise response row ${JSON.stringify(categoryWise)}`);
 
   return {
     props: {
-      monthlytransactions: res.rows,
+      monthlytransactions: monthly_transaction_res.rows,
+      toptransactions: top_transaction_res.rows,
+      categoryWiseAmounts: categoryWise,
     },
   };
+}
+
+async function loadCategoryValues() {
+  let userRes = await fetch(`http://admin:password@localhost:5984/test/test`);
+  if (!userRes.ok) {
+    const message = `An error has occured: ${top_trans_res.status}`;
+    userRes.rows = "NO_USER_RECORD";
+  }
+  let userResJSON = await userRes.json();
+  //console.log(`userResJSON : ${JSON.stringify(userResJSON)}`);
+  let Categories = userResJSON.categories;
+  //console.log(`categories : ${Categories}`);
+
+  let categoryValues = await Promise.all(
+    Categories.map(async (category) => {
+      const catRes = await fetch(
+        `http://admin:password@localhost:5984/test/_design/lotus/_view/monthlycategories?key=\"${category}\"`
+      );
+      const catResJSON = await catRes.json();
+      if (!catRes.ok) {
+        const message = `An error has occured: ${catRes.status}`;
+        catResJSON["value"] = "NO_CATEGORY_RECORD";
+      }
+      let result = {};
+      result[category] = await catResJSON["rows"][0].value;
+      return result;
+    })
+  );
+
+  //console.log(`Final Category Values ${JSON.stringify(categoryValues)}`);
+  return categoryValues;
 }

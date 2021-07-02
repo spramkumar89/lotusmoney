@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 
-function transaction() {
+function transaction({ categories }) {
+  console.log(`**************${categories}`);
   const router = useRouter();
   const handleSubmit = useCallback((event) => {
     event.preventDefault();
@@ -81,9 +82,10 @@ function transaction() {
           name="category"
           className="form-select block w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
         >
-          <option>Grocery</option>
-          <option>Shopping</option>
-          <option>Miscellaneous</option>
+          <option>Uncategorized</option>
+          {categories.map((category) => (
+            <option>{category}</option>
+          ))}
         </select>
       </div>
 
