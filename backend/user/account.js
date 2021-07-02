@@ -58,7 +58,7 @@ export async function update(userdb, doc) {
   try {
     let userDB = nano.use(userdb);
     let record = await userDB.get(userdb);
-    record.accounts = doc.accounts;
+    record.accounts.push(doc.account);
     let response = await userDB.insert(record);
     console.log(`Updated accounts response : ` + JSON.stringify(response));
     return response;

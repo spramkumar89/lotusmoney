@@ -3,15 +3,14 @@ import { useCallback } from "react";
 
 function addcategory() {
   const router = useRouter();
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback((event) => {
+    event.preventDefault();
 
     fetch("/api/user/cards", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        _id: "test",
-        cards: ["cardstest1", "cardstest2", "cardstest3"],
+        card: event.target.card.value,
       }),
     })
       .then((res) => {
@@ -37,8 +36,8 @@ function addcategory() {
       <div className="flex flex-row">
         <input
           type="text"
-          name="cards"
-          id="cards"
+          name="card"
+          id="card"
           placeholder="Card"
           className="w-3/4 mr-2 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
           autoFocus

@@ -12,8 +12,7 @@ export default async function handler(req, res) {
       );
 
       response = await card.update("test", {
-        cards: req.body.cards,
-        _id: "test",
+        cards: req.body.card,
       });
       if (response.ok) {
         console.log(`Reponse OK`);

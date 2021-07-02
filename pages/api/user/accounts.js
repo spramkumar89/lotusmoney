@@ -12,8 +12,7 @@ export default async function handler(req, res) {
       );
 
       response = await account.update("test", {
-        accounts: req.body.accounts,
-        _id: "test",
+        account: req.body.account,
       });
       if (response.ok) {
         console.log(`Reponse OK`);
