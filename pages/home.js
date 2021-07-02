@@ -10,6 +10,7 @@ export default function home({
   monthlytransactions,
   toptransactions,
   categoryWiseAmounts,
+  uncategorizedTrans,
 }) {
   return (
     <div>
@@ -38,7 +39,7 @@ export default function home({
               </div>
             </div>
             <div className="flex-none w-1/4 hidden md:block p-2">
-              <Uncategorized />
+              <Uncategorized uncategorizedTransactions={uncategorizedTrans} />
             </div>
           </div>
           {/* /End replace */}
@@ -78,11 +79,14 @@ export async function getServerSideProps() {
   let categoryWise = await loadCategoryValues();
   //console.log(`categoryWise response row ${JSON.stringify(categoryWise)}`);
 
+  let uncategorized = await loadUncategorized();
+
   return {
     props: {
       monthlytransactions: monthly_transaction_res.rows,
       toptransactions: top_transaction_res.rows,
       categoryWiseAmounts: categoryWise,
+      uncategorizedTrans: uncategorized.rows,
     },
   };
 }
@@ -116,4 +120,24 @@ async function loadCategoryValues() {
 
   //console.log(`Final Category Values ${JSON.stringify(categoryValues)}`);
   return categoryValues;
+}
+
+async function loadUncategorized() {
+  const monthly_uncategorized_res = await fetch(
+    `http://admin:password@localhost:5984/test/_design/lotus/_view/uncategorized?startkey=["2021",\"${(
+      "0" +
+      (new Date().getMonth() + 1)
+    ).slice(-2)}\","01"]&endkey=["2021",\"${(
+      "0" +
+      (new Date().getMonth() + 1)
+    ).slice(-2)}\","31"]`
+  );
+
+  if (!monthly_uncategorized_res.ok) {
+    const message = `An error has occured: ${monthly_uncategorized_res.status}`;
+    monthly_uncategorized_res.rows = "NO_TRANSACTIONS_AVAILABLE";
+  }
+
+  const uncategorizedTrans = await monthly_uncategorized_res.json();
+  return uncategorizedTrans;
 }
