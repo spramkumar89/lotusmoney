@@ -6,7 +6,7 @@ function toptransactions({ transactions }) {
       </div>
 
       {transactions.map((trans, key) => (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center" key={key}>
           <div className="flex-initial w-3/4">{trans.value.description}</div>
           <div className="text-green-500">{trans.value.amount}</div>
         </div>

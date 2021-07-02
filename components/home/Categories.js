@@ -7,7 +7,7 @@ function categories({ categoryAmount }) {
       </div>
 
       {categoryAmount.map((category, key) => (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center" key={key}>
           <div className="flex-initial w-3/4">{Object.keys(category)[0]}</div>
           <div className="text-green-500">
             {category[Object.keys(category)[0]]}
