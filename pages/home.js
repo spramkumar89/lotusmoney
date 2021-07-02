@@ -5,6 +5,7 @@ import Categories from "../components/home/Categories";
 import Chart from "../components/home/Chart";
 import Transactions from "../components/home/Transactions";
 import Uncategorized from "../components/home/Uncategorized";
+import { Pie } from "react-chartjs-2";
 
 export default function home({
   monthlytransactions,
@@ -34,7 +35,7 @@ export default function home({
             </div>
             <div className="flex-auto p-2">
               <div className="grid grid-flow-row gap-4">
-                <Chart />
+                <Chart transactions={monthlytransactions} />
                 <Transactions transactions={monthlytransactions} />
               </div>
             </div>
@@ -108,12 +109,13 @@ async function loadCategoryValues() {
         `http://admin:password@localhost:5984/test/_design/lotus/_view/monthlycategories?key=\"${category}\"`
       );
       const catResJSON = await catRes.json();
-      if (!catRes.ok) {
-        const message = `An error has occured: ${catRes.status}`;
-        catResJSON["value"] = "NO_CATEGORY_RECORD";
-      }
       let result = {};
-      result[category] = await catResJSON["rows"][0].value;
+      if (catResJSON["rows"].length == 0) {
+        const message = `An error has occured: ${catRes.status}`;
+        result = "NO_CATEGORY_RECORD";
+      } else {
+        result[category] = await catResJSON["rows"][0].value;
+      }
       return result;
     })
   );
