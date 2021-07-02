@@ -1,7 +1,7 @@
 function transactions({ transactions }) {
   //console.log(`Transactions in component ${JSON.stringify(transactions)}`);
   return (
-    <div className="bg-gray-100 rounded-lg shadow-md p-2">
+    <div className="bg-gray-200 rounded-lg shadow-md p-2 border-2 border-gray-300">
       <table className="table-auto w-full">
         {/* <thead>
       <tr className="border-b-2 border-gray-300">

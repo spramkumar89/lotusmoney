@@ -23,7 +23,7 @@ export default function home({
         </div>
       </header>
       */}
-      <main className="bg-gray-50">
+      <main className="bg-gray-100">
         <div className="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
           {/* Replace with your content */}
           <div className="flex flex-row text-gray-600">

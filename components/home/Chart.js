@@ -72,7 +72,7 @@ function chart({ transactions }) {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center lg:flex-row bg-gray-100 h-auto shadow-md">
+    <div className="flex flex-col justify-center items-center lg:flex-row bg-gray-200 h-auto shadow-md rounded-lg border-2 border-gray-300">
       <div className="rounded-lg p-2 w-1/2">
         <Doughnut data={data} options={incomeOptions} />
       </div>
