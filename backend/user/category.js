@@ -45,9 +45,9 @@ export async function deleteData(user) {
  */
 export async function update(userdb, doc) {
   try {
-    let userDB = nano.use(userdb);
-    let record = await userDB.get(userdb);
-    record.categories = doc.categories;
+    const userDB = nano.use(userdb);
+    const record = await userDB.get(userdb);
+    record.categories.push(doc.category);
     let response = await userDB.insert(record);
     console.log(`Updated cateogories response : ` + JSON.stringify(response));
     return response;

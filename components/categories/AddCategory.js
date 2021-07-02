@@ -3,15 +3,14 @@ import { useCallback } from "react";
 
 function addcategory() {
   const router = useRouter();
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback((event) => {
+    event.preventDefault();
 
     fetch("/api/user/category", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        _id: "test",
-        categories: ["test1", "test2", "test3"],
+        category: event.target.category.value,
       }),
     })
       .then((res) => {
@@ -25,9 +24,7 @@ function addcategory() {
         }
       })
       .catch((error) => {
-        console.log(
-          `Front end authentication error response ${JSON.stringify(error)}`
-        );
+        console.log(`Add Category error response ${JSON.stringify(error)}`);
         router.push("/");
       });
   }, []);

@@ -12,7 +12,7 @@ export default async function handler(req, res) {
       );
 
       response = await category.update("test", {
-        categories: req.body.categories,
+        category: req.body.category,
         _id: "test",
       });
       if (response.ok) {
