@@ -1,6 +1,6 @@
 function toptransactions({ transactions }) {
   return (
-    <div className="bg-gray-200 rounded-lg shadow-md p-2 border-2 border-gray-300">
+    <div className="bg-gray-200 rounded-lg shadow-lg p-2">
       <div className="flex justify-center font-semibold text-blue-500">
         Top Transactions
       </div>

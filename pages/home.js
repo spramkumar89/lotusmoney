@@ -23,7 +23,7 @@ export default function home({
         </div>
       </header>
       */}
-      <main className="bg-gray-100">
+      <main className="bg-gray-50">
         <div className="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
           {/* Replace with your content */}
           <div className="flex flex-row text-gray-600">
@@ -112,7 +112,6 @@ async function loadCategoryValues() {
       let result = {};
       if (catResJSON["rows"].length == 0) {
         const message = `An error has occured: ${catRes.status}`;
-        result = "NO_CATEGORY_RECORD";
       } else {
         result[category] = await catResJSON["rows"][0].value;
       }

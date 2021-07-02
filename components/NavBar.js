@@ -36,7 +36,7 @@ function navbar() {
                     <div className="ml-10 flex items-baseline space-x-4">
                       {navigation.map((item, itemIdx) => (
                         <Link key={item} href={navigationValues[itemIdx]}>
-                          <a className="text-gray-00 hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                          <a className="text-gray-500 hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                             {item}
                           </a>
                         </Link>
@@ -46,7 +46,7 @@ function navbar() {
                         {({ open }) => (
                           <>
                             <div>
-                              <Menu.Button className="text-gray-00 hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                              <Menu.Button className="text-gray-500 hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Features
                               </Menu.Button>
                               <Transition
