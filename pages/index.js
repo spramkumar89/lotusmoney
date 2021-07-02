@@ -147,7 +147,7 @@ function LoginPage() {
 
               <p className="mt-8">
                 Need an account?{" "}
-                <Link href="/createaccount">
+                <Link href="/createuser">
                   <a className="text-blue-500 hover:text-blue-700 font-semibold">
                     Create an account
                   </a>

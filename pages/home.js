@@ -5,7 +5,6 @@ import Categories from "../components/home/Categories";
 import Chart from "../components/home/Chart";
 import Transactions from "../components/home/Transactions";
 import Uncategorized from "../components/home/Uncategorized";
-import { Pie } from "react-chartjs-2";
 
 export default function home({
   monthlytransactions,
@@ -16,16 +15,8 @@ export default function home({
   return (
     <div>
       <NavBar />
-      {/*
-      <header className="bg-gray-700 text-yellow-500 shadow">
-        <div className="max-w-7xl mx-auto p-4 sm:px-6 lg:px-8">
-          <h3 className="text-xl font-bold">LOTUS MONEY</h3>
-        </div>
-      </header>
-      */}
       <main className="bg-gray-50">
         <div className="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
-          {/* Replace with your content */}
           <div className="flex flex-row text-gray-600">
             <div className="flex-none w-1/4 hidden md:block m-2">
               <div className="grid grid-flow-row gap-4">
@@ -43,7 +34,6 @@ export default function home({
               <Uncategorized uncategorizedTransactions={uncategorizedTrans} />
             </div>
           </div>
-          {/* /End replace */}
         </div>
       </main>
     </div>
