@@ -3,7 +3,7 @@ import NavBar from "../components/NavBar";
 import Categories from "../components/categories/Categories";
 import AddCategory from "../components/categories/AddCategory";
 
-export default function home() {
+export default function home({ userCategories }) {
   return (
     <div className="bg-gray-50">
       <NavBar />
@@ -13,10 +13,10 @@ export default function home() {
           <div className="flex flex-col text-gray-600 mt-2">
             <AddCategory />
             <div className="flex flex-col text-gray-600 mt-2">
-              <div className="flex flex-row bg-blue-300 p-2 rounded-md justify-center font-semibold uppercase text-yellow-50">
+              <div className="flex flex-row bg-blue-200 p-2 rounded-md justify-center font-semibold uppercase text-gray-400">
                 <div className="pl-2">Categories</div>
               </div>
-              <Categories />
+              <Categories categories={userCategories} />
             </div>
           </div>
           {/* /End replace */}
@@ -24,4 +24,20 @@ export default function home() {
       </main>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  let userRes = await fetch(`http://admin:password@localhost:5984/test/test`);
+  if (!userRes.ok) {
+    const message = `An error has occured: ${top_trans_res.status}`;
+    userRes.rows = "NO_USER_RECORD";
+  }
+  let userResJSON = await userRes.json();
+  let categories = userResJSON.categories;
+  console.log("categories : " + categories);
+  return {
+    props: {
+      userCategories: categories,
+    },
+  };
 }
