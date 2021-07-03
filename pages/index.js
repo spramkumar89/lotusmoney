@@ -65,17 +65,7 @@ function LoginPage() {
   );
 }
 
-function oldLoginPageCode(){
-
-
-
-
-
-
-
-
-
-
+function oldLoginPageCode() {
   <div>
     <Head>
       <title>LotusMoney</title>
@@ -196,6 +186,7 @@ function oldLoginPageCode(){
         </div>
       </div>
     </main>
-  </div>
+  </div>;
+}
 
 export default LoginPage;
