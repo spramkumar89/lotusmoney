@@ -42,7 +42,9 @@ export default function home({
 
 export async function getServerSideProps() {
   const monthly_trans_res = await fetch(
-    `http://admin:password@localhost:5984/test/_design/lotus/_view/monthlytransactions?startkey=["2021",\"${(
+    `${
+      process.env.DBURL
+    }/test/_design/lotus/_view/monthlytransactions?startkey=["2021",\"${(
       "0" +
       (new Date().getMonth() + 1)
     ).slice(-2)}\","01"]&endkey=["2021",\"${(
@@ -58,7 +60,7 @@ export async function getServerSideProps() {
   //console.log(`Monthly transaction response row ${JSON.stringify(monthly_transaction_res.rows)}`);
 
   const top_trans_res = await fetch(
-    `http://admin:password@localhost:5984/test/_design/lotus/_view/toptransactions?descending=true&limit=5`
+    `${process.env.DBURL}/test/_design/lotus/_view/toptransactions?descending=true&limit=5`
   );
   if (!top_trans_res.ok) {
     const message = `An error has occured: ${top_trans_res.status}`;
@@ -83,7 +85,7 @@ export async function getServerSideProps() {
 }
 
 async function loadCategoryValues() {
-  let userRes = await fetch(`http://admin:password@localhost:5984/test/test`);
+  let userRes = await fetch(`${process.env.DBURL}/test/test`);
   if (!userRes.ok) {
     const message = `An error has occured: ${top_trans_res.status}`;
     userRes.rows = "NO_USER_RECORD";
@@ -96,7 +98,7 @@ async function loadCategoryValues() {
   let categoryValues = await Promise.all(
     Categories.map(async (category) => {
       const catRes = await fetch(
-        `http://admin:password@localhost:5984/test/_design/lotus/_view/monthlycategories?key=\"${category}\"`
+        `${process.env.DBURL}/test/_design/lotus/_view/monthlycategories?key=\"${category}\"`
       );
       const catResJSON = await catRes.json();
       let result = {};
@@ -115,7 +117,9 @@ async function loadCategoryValues() {
 
 async function loadUncategorized() {
   const monthly_uncategorized_res = await fetch(
-    `http://admin:password@localhost:5984/test/_design/lotus/_view/uncategorized?startkey=["2021",\"${(
+    `${
+      process.env.DBURL
+    }/test/_design/lotus/_view/uncategorized?startkey=["2021",\"${(
       "0" +
       (new Date().getMonth() + 1)
     ).slice(-2)}\","01"]&endkey=["2021",\"${(

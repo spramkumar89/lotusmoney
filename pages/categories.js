@@ -27,7 +27,7 @@ export default function home({ userCategories }) {
 }
 
 export async function getServerSideProps() {
-  let userRes = await fetch(`http://admin:password@localhost:5984/test/test`);
+  let userRes = await fetch(`${process.env.DBURL}/test/test`);
   if (!userRes.ok) {
     const message = `An error has occured: ${top_trans_res.status}`;
     userRes.rows = "NO_USER_RECORD";
