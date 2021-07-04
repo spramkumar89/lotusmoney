@@ -2,11 +2,13 @@ import Head from "next/head";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { useRouter } from "next/router";
+import { signIn, signOut, useSession } from "next-auth/client";
 import Link from "next/link";
 
 const navigation = ["Home", "Transaction", "Budget", "Reports"];
 const navigationValues = ["/home", "/transaction", "/home", "/home"];
-const profile = ["Your Profile", "Settings", "Sign out"];
+const profile = ["Your Profile", "Settings", "Signout"];
 const profileValues = ["/home", "/home", "/"];
 const features = ["Categories", "Rules", "Accounts", "Goals", "Budget"];
 const featuresValues = ["/categories", "/home", "/accounts", "/home", "/home"];
@@ -16,6 +18,8 @@ function classNames(...classes) {
 }
 
 function navbar() {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -135,6 +139,17 @@ function navbar() {
                                           active ? "bg-gray-50" : "",
                                           "block px-4 py-2 text-sm text-gray-700"
                                         )}
+                                        onClick={
+                                          item === "Signout"
+                                            ? () => {
+                                                console.log(
+                                                  "Signout is called"
+                                                );
+                                                signOut();
+                                                router.push("/");
+                                              }
+                                            : () => {}
+                                        }
                                       >
                                         {item}
                                       </a>
