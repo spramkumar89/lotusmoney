@@ -1,4 +1,5 @@
 function toptransactions({ transactions }) {
+  console.log(`toptransactions props ${transactions}`);
   return (
     <div className="bg-gray-200 rounded-lg shadow-lg p-2">
       <div className="flex justify-center font-semibold text-blue-500">

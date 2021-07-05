@@ -2,6 +2,7 @@
 import NavBar from "../components/NavBar";
 import Categories from "../components/categories/Categories";
 import AddCategory from "../components/categories/AddCategory";
+let base64 = require("base-64");
 
 export default function home({ userCategories }) {
   return (
@@ -27,7 +28,18 @@ export default function home({ userCategories }) {
 }
 
 export async function getServerSideProps() {
-  let userRes = await fetch(`${process.env.DBURL}/test/test`);
+  let userRes = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_DBURL
+    }/${session.user.name.toLowerCase()}/userconfig`,
+    {
+      headers: new Headers({
+        Authorization: `Basic ${base64.encode(
+          `${process.env.NEXT_PUBLIC_DBUSERNAME}:${process.env.NEXT_PUBLIC_DBPASSWORD}`
+        )}`,
+      }),
+    }
+  );
   if (!userRes.ok) {
     const message = `An error has occured: ${top_trans_res.status}`;
     userRes.rows = "NO_USER_RECORD";

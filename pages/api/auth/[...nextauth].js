@@ -10,7 +10,7 @@ export default NextAuth({
     }),
   ],
 
-  //database: process.env.DBURL,
+  //database: process.env.NEXT_PUBLIC_DBURL,
   callbacks: {
     session: async (session, user) => {
       session.id = user.id;

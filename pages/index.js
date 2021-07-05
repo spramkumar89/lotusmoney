@@ -2,21 +2,19 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
-import { signIn, signOut, useSession } from "next-auth/client";
-import { getSession } from "next-auth/client";
+import { signIn, signOut, useSession, getSession } from "next-auth/client";
 
 function LoginPage() {
   const [session, loading] = useSession();
-  console.log("***********************" + JSON.stringify(session));
+  console.log("Login page session values" + JSON.stringify(session));
   const router = useRouter();
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
-
     fetch(
       "/api/user/user?" +
         new URLSearchParams({
-          email: e.target.email.value,
-          password: e.target.password.value,
+          email: session.user.email,
+          password: "password",
         }),
       {
         method: "GET",
@@ -114,7 +112,7 @@ function LoginPage() {
                     className="w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300"
                     onClick={() =>
                       signIn("google", {
-                        callbackUrl: "http://localhost:3000/",
+                        callbackUrl: "http://localhost:3000/home",
                       })
                     }
                   >

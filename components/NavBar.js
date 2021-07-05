@@ -18,6 +18,8 @@ function classNames(...classes) {
 }
 
 function navbar() {
+  const [session] = useSession();
+  //console.log(`NavBar Session inside component ${JSON.stringify(session)}`);
   const router = useRouter();
 
   return (
