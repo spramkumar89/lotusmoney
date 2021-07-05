@@ -8,10 +8,7 @@ import { getSession } from "next-auth/client";
 
 export default function home() {
   const router = useRouter();
-  const [incomeCategories, setincomeCategories] = useState([]);
-  const [expenseCategories, setexpenseCategories] = useState([]);
-  const [accounts, setaccounts] = useState([]);
-  const [cards, setcards] = useState([]);
+  const [userconfig, setuserconfig] = useState([]);
 
   useEffect(async () => {
     const session = await getSession();
@@ -35,11 +32,8 @@ export default function home() {
       userConfigs.expenseCategories = [];
     }
     let userConfigs_JSON = await userConfigs.json();
-    console.log(`userConfigs_JSON ${JSON.stringify(userConfigs_JSON)}`);
-    setincomeCategories(userConfigs_JSON.incomeCategories);
-    setexpenseCategories(userConfigs_JSON.expenseCategories);
-    setaccounts(userConfigs_JSON.accounts);
-    setcards(userConfigs_JSON.cards);
+    console.log(`userConfigs_JSON : ${JSON.stringify(userConfigs_JSON)}`);
+    setuserconfig(userConfigs_JSON);
   }, []);
 
   return (
@@ -51,33 +45,33 @@ export default function home() {
             <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
               Accounts
             </div>
-            <SettingCard settings={accounts} />
+            <SettingCard settings={userconfig.accounts} />
           </div>
 
           <div className="flex flex-col bg-gray-200 rounded-md shadow-lg h-64 w-screen/2 justify-items-center overflow-x-auto">
             <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
               Cards
             </div>
-            <SettingCard settings={cards} />
+            <SettingCard settings={userconfig.cards} />
           </div>
 
           <div className="flex flex-col bg-gray-200 rounded-md shadow-lg h-64 w-screen/2 justify-items-center overflow-x-auto">
             <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
               Income Categories
             </div>
-            <SettingCard settings={incomeCategories} />
+            <SettingCard settings={userconfig.incomeCategories} />
           </div>
 
           <div className="flex flex-col bg-gray-200 rounded-md shadow-lg h-64 w-screen/2 justify-items-center overflow-x-auto">
             <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
               Expense Categories
             </div>
-            <SettingCard settings={expenseCategories} />
+            <SettingCard settings={userconfig.expenseCategories} />
           </div>
         </div>
 
         <div className="fixed bottom-0 right-0 h-16 w-16">
-          <AddButton />
+          <AddButton setuserconfig={setuserconfig} />
         </div>
       </main>
     </div>

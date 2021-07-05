@@ -1,18 +1,28 @@
-import { Menu, Transition } from "@headlessui/react";
+import { Menu, Transition, Dialog } from "@headlessui/react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import AddModal from "./AddModal";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function AddButton() {
+export default function AddButton({ props }) {
   const navigation = [
     "Add Account",
     "Add Card",
     "Add Income Category",
     "Add Expense Category",
   ];
+
+  let [isOpen, setIsOpen] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
 
   return (
     <div>
@@ -47,8 +57,9 @@ export default function AddButton() {
               {navigation.map((item, itemIdx) => (
                 <Menu.Item key={item}>
                   {({ active }) => (
-                    <Link key={itemIdx} href={item}>
+                    <div>
                       <a
+                        onClick={openModal}
                         className={classNames(
                           active ? "bg-gray-50" : "",
                           "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-600 hover:text-white "
@@ -56,7 +67,7 @@ export default function AddButton() {
                       >
                         {item}
                       </a>
-                    </Link>
+                    </div>
                   )}
                 </Menu.Item>
               ))}
@@ -64,6 +75,12 @@ export default function AddButton() {
           </Menu.Items>
         </Transition>
       </Menu>
+      //Add Modal
+      <AddModal
+        isOpen={isOpen}
+        handleClose={closeModal}
+        setuserconfig={props.setuserconfig}
+      />
     </div>
   );
 }
