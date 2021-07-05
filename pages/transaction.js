@@ -1,5 +1,6 @@
 import NavBar from "../components/NavBar";
 import Transaction from "../components/transaction/Transaction";
+let base64 = require("base-64");
 
 function transaction({ category }) {
   return (
@@ -27,7 +28,18 @@ export async function getServerSideProps() {
 }
 
 async function loadCategoryValues() {
-  let userRes = await fetch(`http://admin:password@localhost:5984/test/test`);
+  let userRes = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_DBURL
+    }/${session.user.name.toLowerCase()}/userconfig`,
+    {
+      headers: new Headers({
+        Authorization: `Basic ${base64.encode(
+          `${process.env.NEXT_PUBLIC_DBUSERNAME}:${process.env.NEXT_PUBLIC_DBPASSWORD}`
+        )}`,
+      }),
+    }
+  );
   if (!userRes.ok) {
     const message = `An error has occured: ${top_trans_res.status}`;
     userRes.rows = "NO_USER_RECORD";

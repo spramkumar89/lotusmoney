@@ -5,13 +5,96 @@ import Categories from "../components/home/Categories";
 import Chart from "../components/home/Chart";
 import Transactions from "../components/home/Transactions";
 import Uncategorized from "../components/home/Uncategorized";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { signIn, signOut, useSession, getSession } from "next-auth/client";
 
-export default function home({
-  monthlytransactions,
-  toptransactions,
-  categoryWiseAmounts,
-  uncategorizedTrans,
-}) {
+export default function home() {
+  const router = useRouter();
+  const [monthlytransactions, setmonthlytransactions] = useState([]);
+  const [toptransactions, settoptransactions] = useState([]);
+  const [categoryWiseAmounts, setcategoryWiseAmounts] = useState([]);
+  const [uncategorizedTrans, setuncategorizedTrans] = useState([]);
+
+  useEffect(async () => {
+    const session = await getSession();
+    console.log(`Home page session values ${JSON.stringify(session)}`);
+
+    // Loading MONTHLY_TRANSACTIONS
+    const monthly_transaction_res = await fetch(
+      "/api/home/monthlytransaction?" +
+        new URLSearchParams({
+          name: session.user.name.toLowerCase(),
+        }),
+      {
+        method: "GET",
+      }
+    );
+    if (!monthly_transaction_res.ok) {
+      console.log(`An error has occured: ${monthly_transaction_res}`);
+      monthly_transaction_res.rows = "NO_USER_RECORD";
+    }
+    let monthly_transaction_res_JSON = await monthly_transaction_res.json();
+    console.log(
+      `monthlytransactions ${JSON.stringify(monthly_transaction_res_JSON)}`
+    );
+    setmonthlytransactions(monthly_transaction_res_JSON.rows);
+
+    // Loading TOP_TRANSACTIONS
+    const top_transaction_res = await fetch(
+      "/api/home/toptransactions?" +
+        new URLSearchParams({
+          name: session.user.name.toLowerCase(),
+        }),
+      {
+        method: "GET",
+      }
+    );
+    if (!top_transaction_res.ok) {
+      console.log(`An error has occured: ${top_transaction_res}`);
+      top_transaction_res.rows = "NO_USER_RECORD";
+    }
+    let top_transaction_res_JSON = await top_transaction_res.json();
+    console.log(`toptransactions ${JSON.stringify(top_transaction_res_JSON)}`);
+    settoptransactions(top_transaction_res_JSON.rows);
+
+    // Loading CATEGORY_WISE_TRANSACTIONS
+    const categoryWise = await fetch(
+      "/api/home/categoryvalues?" +
+        new URLSearchParams({
+          name: session.user.name.toLowerCase(),
+        }),
+      {
+        method: "GET",
+      }
+    );
+    if (!categoryWise.ok) {
+      console.log(`An error has occured: ${categoryWise}`);
+      categoryWise = "NO_USER_RECORD";
+    }
+    let categoryWise_JSON = await categoryWise.json();
+    console.log(`categoryWise ${JSON.stringify(categoryWise_JSON)}`);
+    setcategoryWiseAmounts(categoryWise_JSON);
+
+    //Loading UNCATEGORIZED
+    const uncategorized = await fetch(
+      "/api/home/uncategorized?" +
+        new URLSearchParams({
+          name: session.user.name.toLowerCase(),
+        }),
+      {
+        method: "GET",
+      }
+    );
+    if (!uncategorized.ok) {
+      console.log(`An error has occured: ${uncategorized}`);
+      uncategorized.rows = "NO_USER_RECORD";
+    }
+    let uncategorized_JSON = await uncategorized.json();
+    console.log(`uncategorized ${JSON.stringify(uncategorized_JSON)}`);
+    setuncategorizedTrans(uncategorized_JSON.rows);
+  }, []);
+
   return (
     <div>
       <NavBar />
@@ -38,97 +121,4 @@ export default function home({
       </main>
     </div>
   );
-}
-
-export async function getServerSideProps() {
-  const monthly_trans_res = await fetch(
-    `http://admin:password@localhost:5984/test/_design/lotus/_view/monthlytransactions?startkey=["2021",\"${(
-      "0" +
-      (new Date().getMonth() + 1)
-    ).slice(-2)}\","01"]&endkey=["2021",\"${(
-      "0" +
-      (new Date().getMonth() + 1)
-    ).slice(-2)}\","31"]`
-  );
-  if (!monthly_trans_res.ok) {
-    const message = `An error has occured: ${monthly_trans_res.status}`;
-    monthly_transaction_res.rows = "NO_TRANSACTIONS_AVAILABLE";
-  }
-  const monthly_transaction_res = await monthly_trans_res.json();
-  //console.log(`Monthly transaction response row ${JSON.stringify(monthly_transaction_res.rows)}`);
-
-  const top_trans_res = await fetch(
-    `http://admin:password@localhost:5984/test/_design/lotus/_view/toptransactions?descending=true&limit=5`
-  );
-  if (!top_trans_res.ok) {
-    const message = `An error has occured: ${top_trans_res.status}`;
-    top_transaction_res.rows = "NO_TRANSACTIONS_AVAILABLE";
-  }
-  const top_transaction_res = await top_trans_res.json();
-  //console.log(`Monthly transaction response row ${JSON.stringify(top_transaction_res.rows)}`);
-
-  let categoryWise = await loadCategoryValues();
-  //console.log(`categoryWise response row ${JSON.stringify(categoryWise)}`);
-
-  let uncategorized = await loadUncategorized();
-
-  return {
-    props: {
-      monthlytransactions: monthly_transaction_res.rows,
-      toptransactions: top_transaction_res.rows,
-      categoryWiseAmounts: categoryWise,
-      uncategorizedTrans: uncategorized.rows,
-    },
-  };
-}
-
-async function loadCategoryValues() {
-  let userRes = await fetch(`http://admin:password@localhost:5984/test/test`);
-  if (!userRes.ok) {
-    const message = `An error has occured: ${top_trans_res.status}`;
-    userRes.rows = "NO_USER_RECORD";
-  }
-  let userResJSON = await userRes.json();
-  //console.log(`userResJSON : ${JSON.stringify(userResJSON)}`);
-  let Categories = userResJSON.categories;
-  //console.log(`categories : ${Categories}`);
-
-  let categoryValues = await Promise.all(
-    Categories.map(async (category) => {
-      const catRes = await fetch(
-        `http://admin:password@localhost:5984/test/_design/lotus/_view/monthlycategories?key=\"${category}\"`
-      );
-      const catResJSON = await catRes.json();
-      let result = {};
-      if (catResJSON["rows"].length == 0) {
-        const message = `An error has occured: ${catRes.status}`;
-      } else {
-        result[category] = await catResJSON["rows"][0].value;
-      }
-      return result;
-    })
-  );
-
-  //console.log(`Final Category Values ${JSON.stringify(categoryValues)}`);
-  return categoryValues;
-}
-
-async function loadUncategorized() {
-  const monthly_uncategorized_res = await fetch(
-    `http://admin:password@localhost:5984/test/_design/lotus/_view/uncategorized?startkey=["2021",\"${(
-      "0" +
-      (new Date().getMonth() + 1)
-    ).slice(-2)}\","01"]&endkey=["2021",\"${(
-      "0" +
-      (new Date().getMonth() + 1)
-    ).slice(-2)}\","31"]`
-  );
-
-  if (!monthly_uncategorized_res.ok) {
-    const message = `An error has occured: ${monthly_uncategorized_res.status}`;
-    monthly_uncategorized_res.rows = "NO_TRANSACTIONS_AVAILABLE";
-  }
-
-  const uncategorizedTrans = await monthly_uncategorized_res.json();
-  return uncategorizedTrans;
 }
