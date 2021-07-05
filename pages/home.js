@@ -59,7 +59,7 @@ export default function home() {
     settoptransactions(top_transaction_res_JSON.rows);
 
     // Loading CATEGORY_WISE_TRANSACTIONS
-    const categoryWise = await fetch(
+    let categoryWise = await fetch(
       "/api/home/categoryvalues?" +
         new URLSearchParams({
           name: session.user.name.toLowerCase(),
@@ -70,8 +70,8 @@ export default function home() {
     );
     if (!categoryWise.ok) {
       console.log(`An error has occured: ${categoryWise}`);
-      categoryWise = "NO_USER_RECORD";
     }
+    console.log(`categoryWise result : ${categoryWise}`);
     let categoryWise_JSON = await categoryWise.json();
     console.log(`categoryWise ${JSON.stringify(categoryWise_JSON)}`);
     setcategoryWiseAmounts(categoryWise_JSON);

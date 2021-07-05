@@ -2,7 +2,7 @@
 import NavBar from "../components/NavBar";
 import Categories from "../components/categories/Categories";
 import AddCategory from "../components/categories/AddCategory";
-let base64 = require("base-64");
+import { getSession } from "next-auth/client";
 
 export default function home({ userCategories }) {
   return (
@@ -28,17 +28,12 @@ export default function home({ userCategories }) {
 }
 
 export async function getServerSideProps() {
+  const session = await getSession();
   let userRes = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_DBURL
-    }/${session.user.name.toLowerCase()}/userconfig`,
-    {
-      headers: new Headers({
-        Authorization: `Basic ${base64.encode(
-          `${process.env.NEXT_PUBLIC_DBUSERNAME}:${process.env.NEXT_PUBLIC_DBPASSWORD}`
-        )}`,
-      }),
-    }
+    `${process.env.DBURL}/${session.user.name.toLowerCase()}/userconfig` +
+      new URLSearchParams({
+        name: session.user.name.toLowerCase(),
+      })
   );
   if (!userRes.ok) {
     const message = `An error has occured: ${top_trans_res.status}`;
