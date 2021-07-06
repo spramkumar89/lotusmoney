@@ -6,7 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function AddButton({ props }) {
+export default function AddButton({ settings, setuserconfig }) {
   const navigation = [
     "Add Account",
     "Add Card",
@@ -75,11 +75,12 @@ export default function AddButton({ props }) {
           </Menu.Items>
         </Transition>
       </Menu>
-      //Add Modal
+
       <AddModal
         isOpen={isOpen}
-        handleClose={closeModal}
-        setuserconfig={props.setuserconfig}
+        setIsOpen={setIsOpen}
+        setuserconfig={setuserconfig}
+        settings={settings}
       />
     </div>
   );

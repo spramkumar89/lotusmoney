@@ -1,7 +1,21 @@
-function SettingCard({ settings }) {
+function SettingCard({ data, settings }) {
+  console.log(`settings : ${JSON.stringify(settings)}`);
+  console.log(`data : ${data}`);
+
+  let records = [];
+  if (data == "Accounts") {
+    records = settings.accounts;
+  } else if (data == "Cards") {
+    records = settings.cards;
+  } else if (data == "Income Categories") {
+    records = settings.incomeCategories;
+  } else {
+    records = settings.expenseCategories;
+  }
+  console.log(`records : ${records}`);
   return (
     <div className="flex flex-wrap">
-      {settings.map((row, key) => (
+      {records.map((row, key) => (
         <div
           className="bg-green-200 rounded-full px-2 py-1 m-1 shadow-md hover:bg-green-400"
           key={key}
