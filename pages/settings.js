@@ -13,6 +13,7 @@ export default function home() {
   userConfigs_JSON.cards = [];
   userConfigs_JSON.incomeCategories = [];
   userConfigs_JSON.expenseCategories = [];
+  userConfigs_JSON.goals = [];
   let [userconfig, setuserconfig] = useState(userConfigs_JSON);
 
   useEffect(async () => {
@@ -68,6 +69,13 @@ export default function home() {
               Expense Categories
             </div>
             <SettingCard userconfig={userconfig} data={"ExpenseCategories"} />
+          </div>
+
+          <div className="flex flex-col bg-gray-200 rounded-md shadow-lg h-64 w-screen/2 justify-items-center overflow-x-auto">
+            <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
+              Goals
+            </div>
+            <SettingCard userconfig={userconfig} data={"Goals"} />
           </div>
         </div>
 

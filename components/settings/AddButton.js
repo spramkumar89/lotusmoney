@@ -12,6 +12,7 @@ export default function AddButton({ userconfig, setuserconfig }) {
     "Add Card",
     "Add Income Category",
     "Add Expense Category",
+    "Add Goals",
   ];
 
   let [title, setTitle] = useState("");
@@ -54,7 +55,7 @@ export default function AddButton({ userconfig, setuserconfig }) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute top-0 w-56 -mt-40 -ml-44 origin-bottom-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute top-0 w-56 -mt-48 -ml-44 origin-bottom-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="px-1 py-1 ">
               {navigation.map((item, itemIdx) => (
                 <Menu.Item key={item}>

@@ -9,6 +9,8 @@ function SettingCard({ data, userconfig }) {
     records = userconfig.cards;
   } else if (data == "IncomeCategories") {
     records = userconfig.incomeCategories;
+  } else if (data == "Goals") {
+    records = userconfig.goals;
   } else {
     records = userconfig.expenseCategories;
   }

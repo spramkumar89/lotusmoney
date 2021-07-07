@@ -22,6 +22,8 @@ export default function MyModal({
       userconfig.cards.push(label);
     } else if (title == "Add Income Category") {
       userconfig.incomeCategories.push(label);
+    } else if (title == "Add Goals") {
+      userconfig.goals.push(label);
     } else {
       userconfig.expenseCategories.push(label);
     }
@@ -127,6 +129,7 @@ export default function MyModal({
                     id="category"
                     placeholder="Category"
                     className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                    autoComplete="off"
                     autoFocus
                     required
                   />
