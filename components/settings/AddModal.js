@@ -1,12 +1,73 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import router from "next/router";
+import { Fragment, useState, useCallback } from "react";
+import { getSession } from "next-auth/client";
+import { cloneDeep } from "lodash";
 
 export default function MyModal({
+  title,
   isOpen,
   setIsOpen,
-  settings,
+  userconfig,
   setuserconfig,
 }) {
+  const saveToDatabase = async (label, userconfig) => {
+    const session = await getSession();
+    console.log(
+      `Modal title ${title} updating the db now : ${JSON.stringify(userconfig)}`
+    );
+    if (title == "Add Account") {
+      userconfig.accounts.push(label);
+    } else if (title == "Add Card") {
+      userconfig.cards.push(label);
+    } else if (title == "Add Income Category") {
+      userconfig.incomeCategories.push(label);
+    } else {
+      userconfig.expenseCategories.push(label);
+    }
+
+    // Loading USER_SETTINGS
+    const userConfigs = await fetch(
+      "/api/settings/updateuserconfig?" +
+        new URLSearchParams({
+          name: session.user.name.toLowerCase(),
+        }),
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userconfig,
+        }),
+      }
+    );
+    if (!userConfigs.ok) {
+      console.log(
+        `User config API error has occured: ${JSON.stringify(userConfigs)}`
+      );
+    }
+    const userConfigs_JSON = await userConfigs.json();
+    console.log(
+      `userConfigs_JSON update response : ${JSON.stringify(userConfigs_JSON)}`
+    );
+    userconfig._rev = userConfigs_JSON.rev;
+    console.log(
+      `*******************userconfig update response : ${JSON.stringify(
+        userconfig
+      )}`
+    );
+    setuserconfig(cloneDeep(userconfig));
+    setIsOpen(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    console.log("Button clicked : " + event.target.category.value);
+    console.log("**********userconfig : " + JSON.stringify(userconfig));
+    console.log("Title : " + title);
+    saveToDatabase(event.target.category.value, userconfig);
+  };
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -57,24 +118,26 @@ export default function MyModal({
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Payment successful
+                  {title}
                 </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent
-                    your an email with all of the details of your order.
-                  </p>
-                </div>
+                <form className="mt-6" onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    name="category"
+                    id="category"
+                    placeholder="Category"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                    autoFocus
+                    required
+                  />
 
-                <div className="mt-4">
                   <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={closeModal}
+                    type="submit"
+                    className="mt-4 inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                   >
-                    Got it, thanks!
+                    Add
                   </button>
-                </div>
+                </form>
               </div>
             </Transition.Child>
           </div>

@@ -1,16 +1,16 @@
-function SettingCard({ data, settings }) {
-  console.log(`settings : ${JSON.stringify(settings)}`);
-  console.log(`data : ${data}`);
+function SettingCard({ data, userconfig }) {
+  console.log(`settingcard - userconfig : ${JSON.stringify(userconfig)}`);
+  console.log(`settingcard - data : ${data}`);
 
   let records = [];
   if (data == "Accounts") {
-    records = settings.accounts;
+    records = userconfig.accounts;
   } else if (data == "Cards") {
-    records = settings.cards;
-  } else if (data == "Income Categories") {
-    records = settings.incomeCategories;
+    records = userconfig.cards;
+  } else if (data == "IncomeCategories") {
+    records = userconfig.incomeCategories;
   } else {
-    records = settings.expenseCategories;
+    records = userconfig.expenseCategories;
   }
   console.log(`records : ${records}`);
   return (

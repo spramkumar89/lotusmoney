@@ -1,12 +1,29 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 export default async function handler(req, res) {
-  let response = {};
+  console.log(
+    `udpateuserconfig API - req.query : ${JSON.stringify(
+      req.query
+    )}, req.body : ${JSON.stringify(req.body)}`
+  );
   switch (req.method) {
-    case "GET":
-      let userConfig = await fetch(
-        `${process.env.DBURL}/${req.query.name}/userconfig`
+    case "POST":
+      let userconfig = req.body.userconfig;
+      console.log(
+        `URL formed is ${`${process.env.DBURL}/${req.query.name}/${userconfig._id}`}`
       );
+      let userConfig = await fetch(
+        `${process.env.DBURL}/${req.query.name}/userconfig`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userconfig),
+        }
+      );
+
       if (!userConfig.ok) {
         console.log(`UserConfig API error has occured: ${userConfig.status}`);
         userConfig.rows = "NO_SETTINGS";

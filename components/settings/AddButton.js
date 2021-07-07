@@ -6,7 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function AddButton({ settings, setuserconfig }) {
+export default function AddButton({ userconfig, setuserconfig }) {
   const navigation = [
     "Add Account",
     "Add Card",
@@ -14,14 +14,16 @@ export default function AddButton({ settings, setuserconfig }) {
     "Add Expense Category",
   ];
 
+  let [title, setTitle] = useState("");
   let [isOpen, setIsOpen] = useState(false);
 
   function closeModal() {
     setIsOpen(false);
   }
 
-  function openModal() {
+  function openModal(item) {
     setIsOpen(true);
+    setTitle(item);
   }
 
   return (
@@ -59,7 +61,7 @@ export default function AddButton({ settings, setuserconfig }) {
                   {({ active }) => (
                     <div>
                       <a
-                        onClick={openModal}
+                        onClick={() => openModal(item)}
                         className={classNames(
                           active ? "bg-gray-50" : "",
                           "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-600 hover:text-white "
@@ -78,9 +80,10 @@ export default function AddButton({ settings, setuserconfig }) {
 
       <AddModal
         isOpen={isOpen}
+        title={title}
         setIsOpen={setIsOpen}
         setuserconfig={setuserconfig}
-        settings={settings}
+        userconfig={userconfig}
       />
     </div>
   );
