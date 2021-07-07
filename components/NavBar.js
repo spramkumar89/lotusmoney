@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/client";
 import Link from "next/link";
 
-const navigation = ["Home", "Transaction", "Budget", "Reports"];
-const navigationValues = ["/home", "/transaction", "/home", "/home"];
+const navigation = ["Home", "Transaction", "Reports", "Settings"];
+const navigationValues = ["/home", "/transaction", "/home", "/settings"];
 const profile = ["Your Profile", "Settings", "Signout"];
 const profileValues = ["/home", "/home", "/"];
 const features = ["Categories", "Rules", "Accounts", "Goals", "Budget"];

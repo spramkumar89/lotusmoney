@@ -13,6 +13,7 @@
     "@tailwindcss/forms": "^0.3.3",
     "base-64": "^1.0.0",
     "chart.js": "^3.3.2",
+    "lodash": "^4.17.21",
     "nano": "^9.0.3",
     "next": "10.2.3",
     "next-auth": "^3.27.1",
