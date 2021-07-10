@@ -20,7 +20,7 @@ export default function home() {
     const session = await getSession();
     console.log(`Home page session values ${JSON.stringify(session)}`);
 
-    // Loading MONTHLY_TRANSACTIONS
+    // Loading MONTHLY_TRANSACTIONS ******************************************************************
     const monthly_transaction_res = await fetch(
       "/api/home/monthlytransaction?" +
         new URLSearchParams({
@@ -40,7 +40,7 @@ export default function home() {
     );
     setmonthlytransactions(monthly_transaction_res_JSON.rows);
 
-    // Loading TOP_TRANSACTIONS
+    // Loading TOP_TRANSACTIONS ******************************************************************
     const top_transaction_res = await fetch(
       "/api/home/toptransactions?" +
         new URLSearchParams({
@@ -58,7 +58,7 @@ export default function home() {
     console.log(`toptransactions ${JSON.stringify(top_transaction_res_JSON)}`);
     settoptransactions(top_transaction_res_JSON.rows);
 
-    // Loading CATEGORY_WISE_TRANSACTIONS
+    // Loading CATEGORY_WISE_TRANSACTIONS ******************************************************************
     let categoryWise = await fetch(
       "/api/home/categoryvalues?" +
         new URLSearchParams({
@@ -76,7 +76,7 @@ export default function home() {
     console.log(`categoryWise ${JSON.stringify(categoryWise_JSON)}`);
     setcategoryWiseAmounts(categoryWise_JSON);
 
-    //Loading UNCATEGORIZED
+    //Loading UNCATEGORIZED ******************************************************************
     const uncategorized = await fetch(
       "/api/home/uncategorized?" +
         new URLSearchParams({

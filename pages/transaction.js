@@ -1,23 +1,60 @@
 import NavBar from "../components/NavBar";
 import Transaction from "../components/transaction/Transaction";
-let base64 = require("base-64");
+import TypeMenu from "../components/transaction/TypeMenu";
+import TransactionTable from "../components/transaction/TransactionTable";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { getSession } from "next-auth/client";
 
 function transaction({ category }) {
+  let userConfigs_JSON = {};
+  let [userconfig, setuserconfig] = useState(userConfigs_JSON);
+
+  useEffect(async () => {
+    const session = await getSession();
+    //console.log(`Home page session values ${JSON.stringify(session)}`);
+
+    // Loading USER_SETTINGS
+    const userConfigs = await fetch(
+      "/api/settings/load?" +
+        new URLSearchParams({
+          name: session.user.name.toLowerCase(),
+        }),
+      {
+        method: "GET",
+      }
+    );
+    if (!userConfigs.ok) {
+      console.log(`User config API error has occured: ${userConfigs}`);
+    }
+    userConfigs_JSON = await userConfigs.json();
+    /* console.log(
+      `Transaction Page - /api/settings/load - response : ${JSON.stringify(
+        userConfigs_JSON
+      )}`
+    ); */
+    setuserconfig(userConfigs_JSON);
+  }, []);
+
   return (
     <div>
       <NavBar />
 
       <main className="bg-gray-50">
-        <div className="max-w-lg mx-auto py-2 sm:px-6 lg:px-8">
-          <Transaction categories={category} />
+        <div className="max-w-xl mx-auto py-2 sm:px-6 lg:px-8">
+          {/* <Transaction userconfig={userconfig} setuserconfig={setuserconfig} /> */}
+
+          {/* <TypeMenu /> */}
+          <TransactionTable />
         </div>
       </main>
     </div>
   );
 }
 
-export async function getServerSideProps() {
-  let categories = await loadCategoryValues();
+/* export async function getServerSideProps() {
+  //let categories = await loadCategoryValues();
+  let categories = ["Uncategorized"];
   //console.log(`categoryWise response row ${JSON.stringify(categoryWise)}`);
 
   return {
@@ -25,17 +62,15 @@ export async function getServerSideProps() {
       category: categories,
     },
   };
-}
+} */
 
-async function loadCategoryValues() {
+/* async function loadCategoryValues() {
   let userRes = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_DBURL
-    }/${session.user.name.toLowerCase()}/userconfig`,
+    `${process.env.DBURL}/${session.user.name.toLowerCase()}/userconfig`,
     {
       headers: new Headers({
         Authorization: `Basic ${base64.encode(
-          `${process.env.NEXT_PUBLIC_DBUSERNAME}:${process.env.NEXT_PUBLIC_DBPASSWORD}`
+          `${process.env.DBUSERNAME}:${process.env.DBPASSWORD}`
         )}`,
       }),
     }
@@ -49,6 +84,6 @@ async function loadCategoryValues() {
   let categories = userResJSON.categories;
   //console.log(`categories : ${Categories}`);
   return categories;
-}
+} */
 
 export default transaction;
