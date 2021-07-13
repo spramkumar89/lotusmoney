@@ -8,6 +8,7 @@ import { getSession } from "next-auth/client";
 
 function transaction({ category }) {
   let userConfigs_JSON = {};
+  userConfigs_JSON["incomeCategories"] = [];
   userConfigs_JSON["expenseCategories"] = [];
   userConfigs_JSON["accounts"] = [];
   userConfigs_JSON["cards"] = [];
