@@ -1,5 +1,6 @@
 import Nano from "nano";
 const nano = Nano(String(process.env.DBURL));
+import { getSession } from "next-auth/client";
 
 /* const Nano = require("nano");
 const nano = Nano("http://admin:password@localhost:5984"); */

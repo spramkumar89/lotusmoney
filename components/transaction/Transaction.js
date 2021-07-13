@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import { useCallback } from "react";
+import { getSession } from "next-auth/client";
 import moment from "moment";
 
 function transaction({ userconfig, setuserconfig, showmenu }) {
@@ -8,14 +8,15 @@ function transaction({ userconfig, setuserconfig, showmenu }) {
       userconfig.categories
     } , showmenu : ${showmenu}`
   );
-  const router = useRouter();
-  const handleSubmit = useCallback((event) => {
-    event.preventDefault();
 
+  const handleSubmit = useCallback(async (event) => {
+    event.preventDefault();
+    const session = await getSession();
     fetch("/api/user/transaction", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        userdb: session.user.name.toLowerCase(),
         date: event.target.date.value,
         account: event.target.account.value,
         description: event.target.description.value,
@@ -27,17 +28,14 @@ function transaction({ userconfig, setuserconfig, showmenu }) {
         console.log(`Front end authentication response ${JSON.stringify(res)}`);
         if (res.ok) {
           console.log(`res ok ${res}`);
-          router.push("/home");
         } else {
           console.log(`res ok else ${res}`);
-          router.push("/transaction");
         }
       })
       .catch((error) => {
         console.log(
           `Front end authentication error response ${JSON.stringify(error)}`
         );
-        router.push("/");
       });
   }, []);
 
