@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       }
       let category_resJSON = await category_res.json();
       console.log(`category_resJSON : ${JSON.stringify(category_resJSON)}`);
-      let Categories = category_resJSON.categories;
+      let Categories = category_resJSON.expenseCategories;
       console.log(`categories : ${Categories}`);
 
       let categoryValues = await Promise.all(
