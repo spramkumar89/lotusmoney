@@ -1,8 +1,12 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 
-function transaction({ categories }) {
-  //console.log(`**************${categories}`);
+function transaction({ userconfig, setuserconfig, showmenu }) {
+  console.log(
+    `**************${JSON.stringify(userconfig)} , categories : ${
+      userconfig.categories
+    } , showmenu : ${showmenu}`
+  );
   const router = useRouter();
   const handleSubmit = useCallback((event) => {
     event.preventDefault();
@@ -37,7 +41,10 @@ function transaction({ categories }) {
   }, []);
 
   return (
-    <form className="mt-6" onSubmit={handleSubmit}>
+    <form
+      className={"mt-6 " + (showmenu == "AddTransaction" ? "block" : "hidden")}
+      onSubmit={handleSubmit}
+    >
       <div className="grid grid-flow-col gap-2 mb-1">
         <input
           type="date"
@@ -51,11 +58,43 @@ function transaction({ categories }) {
         />
         <select
           name="account"
+          className="form-select block w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 font-mono"
+          defaultValue={"DEFAULT"}
+        >
+          <option value="DEFAULT" disabled hidden>
+            Select the source
+          </option>
+          <option
+            disabled
+            className="bg-yellow-500 font-mono text-sm text-gray-700 font-semibold"
+          >
+            ACCOUNTS
+          </option>
+          {userconfig.accounts.map((account, key) => (
+            <option className="bg-blue-300 text-gray-700" key={account}>
+              {account}
+            </option>
+          ))}
+          <option
+            disabled
+            className="bg-yellow-500 font-mono text-sm text-gray-700 font-semibold"
+          >
+            CARDS
+          </option>
+          {userconfig.cards.map((card, key) => (
+            <option className="bg-blue-300 text-gray-700" key={card}>
+              {card}
+            </option>
+          ))}
+        </select>
+        <select
+          name="category"
           className="form-select block w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
         >
-          <option>State Bank Of India</option>
-          <option>Axis Bank</option>
-          <option>Kotak Mahindra Bank</option>
+          <option>Uncategorized</option>
+          {userconfig.expenseCategories.map((category, key) => (
+            <option key={key}>{category}</option>
+          ))}
         </select>
       </div>
       <div>
@@ -78,15 +117,6 @@ function transaction({ categories }) {
           autoComplete="true"
           required
         />
-        <select
-          name="category"
-          className="form-select block w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-        >
-          <option>Uncategorized</option>
-          {categories.map((category, key) => (
-            <option key={key}>{category}</option>
-          ))}
-        </select>
       </div>
 
       <button

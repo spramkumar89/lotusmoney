@@ -32,7 +32,7 @@ function navbar() {
       <Disclosure as="nav" className="bg-gray-50">
         {({ open }) => (
           <>
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between h-12">
                 <div className="flex items-center">
                   <div className="flex-shrink-0 text-blue-500 font-bold">
@@ -42,7 +42,7 @@ function navbar() {
                     <div className="ml-10 flex items-baseline space-x-4">
                       {navigation.map((item, itemIdx) => (
                         <Link key={item} href={navigationValues[itemIdx]}>
-                          <a className="text-gray-500 hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                          <a className="hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md font-mono text-lg uppercase text-blue-500">
                             {item}
                           </a>
                         </Link>

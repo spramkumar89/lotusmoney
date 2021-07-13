@@ -71,7 +71,7 @@ export default function transactiontable() {
     <div className="flex flex-col">
       <div className="flex flex-row justify-end p-2">
         <div
-          className={`font-mono text-lg uppercase px-2 bg-indigo-300 border-blue-800 border-r-2`}
+          className={`font-mono text-sm uppercase px-2 bg-indigo-300 border-blue-800 border-r-2`}
           onClick={() => {
             console.log("Previous button clicked");
             setflow("PREVIOUS");
@@ -81,7 +81,7 @@ export default function transactiontable() {
           Previous
         </div>
         <div
-          className={`font-mono text-lg uppercase px-2 bg-indigo-300 ${
+          className={`font-mono text-sm uppercase px-2 bg-indigo-300 ${
             nextkey === "" ? "hidden" : "block"
           }`}
           onClick={() => {

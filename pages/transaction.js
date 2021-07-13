@@ -8,7 +8,11 @@ import { getSession } from "next-auth/client";
 
 function transaction({ category }) {
   let userConfigs_JSON = {};
+  userConfigs_JSON["expenseCategories"] = [];
+  userConfigs_JSON["accounts"] = [];
+  userConfigs_JSON["cards"] = [];
   let [userconfig, setuserconfig] = useState(userConfigs_JSON);
+  let [showmenu, setshowmenu] = useState("");
 
   useEffect(async () => {
     const session = await getSession();
@@ -41,9 +45,44 @@ function transaction({ category }) {
       <NavBar />
 
       <main className="bg-gray-50">
-        <div className="max-w-xl mx-auto py-2 sm:px-6 lg:px-8">
-          {/* <Transaction userconfig={userconfig} setuserconfig={setuserconfig} /> */}
+        <div className="max-w-4xl mx-auto py-2 sm:px-6 lg:px-8">
+          <div className="flex w-full justify-end">
+            <div className="flex flex-row">
+              <div
+                className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
+                onClick={(prevState) => {
+                  setshowmenu("AddTransaction");
+                  console.log("Add Transaction Button Clicked : " + showmenu);
+                }}
+              >
+                AddTransaction
+              </div>
+              <div
+                className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
+                onClick={(prev) => {
+                  setshowmenu("ImportTransaction");
+                }}
+              >
+                ImportTransaction
+              </div>
+              <div
+                className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
+                onClick={(prev) => {
+                  setshowmenu("FilterTransaction");
+                }}
+              >
+                FilterTransaction
+              </div>
+            </div>
+          </div>
 
+          <Transaction
+            userconfig={userconfig}
+            setuserconfig={setuserconfig}
+            showmenu={showmenu}
+          />
+
+          <div className="border border-b-2 mt-2 border-yellow-500"></div>
           {/* <TypeMenu /> */}
           <TransactionTable />
         </div>

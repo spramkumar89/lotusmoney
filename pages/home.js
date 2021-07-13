@@ -98,6 +98,8 @@ export default function home() {
   return (
     <div>
       <NavBar />
+      <div className="border border-t-2 border-blue-300"></div>
+
       <main className="bg-gray-50">
         <div className="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
           <div className="flex flex-row text-gray-600">
