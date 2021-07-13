@@ -47,33 +47,31 @@ function transaction({ category }) {
 
       <main className="bg-gray-50">
         <div className="max-w-4xl mx-auto py-2 sm:px-6 lg:px-8">
-          <div className="flex w-full justify-end">
-            <div className="flex flex-row">
-              <div
-                className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
-                onClick={(prevState) => {
-                  setshowmenu("AddTransaction");
-                  console.log("Add Transaction Button Clicked : " + showmenu);
-                }}
-              >
-                AddTransaction
-              </div>
-              <div
-                className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
-                onClick={(prev) => {
-                  setshowmenu("ImportTransaction");
-                }}
-              >
-                ImportTransaction
-              </div>
-              <div
-                className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
-                onClick={(prev) => {
-                  setshowmenu("FilterTransaction");
-                }}
-              >
-                FilterTransaction
-              </div>
+          <div className="flex flex-row w-full justify-end">
+            <div
+              className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
+              onClick={(prevState) => {
+                setshowmenu("AddTransaction");
+                console.log("Add Transaction Button Clicked : " + showmenu);
+              }}
+            >
+              AddTransaction
+            </div>
+            <div
+              className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
+              onClick={(prev) => {
+                setshowmenu("ImportTransaction");
+              }}
+            >
+              ImportTransaction
+            </div>
+            <div
+              className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
+              onClick={(prev) => {
+                setshowmenu("FilterTransaction");
+              }}
+            >
+              FilterTransaction
             </div>
           </div>
 
