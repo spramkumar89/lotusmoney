@@ -1,5 +1,6 @@
 import NavBar from "../components/NavBar";
-import Transaction from "../components/transaction/Transaction";
+import AddTransaction from "../components/transaction/AddTransaction";
+import ImportTransaction from "../components/transaction/ImportTransaction";
 import TypeMenu from "../components/transaction/TypeMenu";
 import TransactionTable from "../components/transaction/TransactionTable";
 import { useState, useEffect } from "react";
@@ -50,9 +51,10 @@ function transaction({ category }) {
           <div className="flex flex-row w-full justify-end">
             <div
               className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
-              onClick={(prevState) => {
-                setshowmenu("AddTransaction");
-                console.log("Add Transaction Button Clicked : " + showmenu);
+              onClick={() => {
+                setshowmenu((prevState) =>
+                  prevState == "AddTransaction" ? "" : "AddTransaction"
+                );
               }}
             >
               AddTransaction
@@ -60,7 +62,9 @@ function transaction({ category }) {
             <div
               className="font-mono text-lg m-2 px-2 bg-yellow-500 rounded-md shadow-md text-gray-900"
               onClick={(prev) => {
-                setshowmenu("ImportTransaction");
+                setshowmenu((prevState) =>
+                  prevState == "ImportTransaction" ? "" : "ImportTransaction"
+                );
               }}
             >
               ImportTransaction
@@ -75,13 +79,19 @@ function transaction({ category }) {
             </div>
           </div>
 
-          <Transaction
+          <AddTransaction
             userconfig={userconfig}
             setuserconfig={setuserconfig}
             showmenu={showmenu}
           />
 
-          <div className="border border-b-2 mt-2 border-yellow-500"></div>
+          <ImportTransaction
+            userconfig={userconfig}
+            setuserconfig={setuserconfig}
+            showmenu={showmenu}
+          />
+
+          <div className="border border-b-2 mt-2 mb-2 border-yellow-500"></div>
           {/* <TypeMenu /> */}
           <TransactionTable />
         </div>
