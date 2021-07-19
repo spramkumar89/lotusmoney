@@ -21,17 +21,17 @@ export default function transactiontable() {
       startkey = nextkey;
     } else if (flow == "PREVIOUS" && previouskey.length > 1) {
       let temp = cloneDeep(previouskey);
-      console.log(
+      /* console.log(
         `flow - ${flow}, previouskey.length - ${JSON.stringify(
           temp.length
         )} , previouskey - ${JSON.stringify(temp)}`
-      );
+      ); */
       startkey = temp.pop();
       setpreviouskey((previouskey) => previouskey.slice(0, -1));
     }
-    console.log(
+    /* console.log(
       `PAGE COUNT ${page} - /api/transaction/loadtransactions?name=${session.user.name.toLowerCase()}&startkey=${startkey}`
-    );
+    ); */
     // Loading MONTHLY_TRANSACTIONS ******************************************************************
     const transaction_res = await fetch(
       `/api/transaction/loadtransactions?name=${session.user.name.toLowerCase()}&startkey=${startkey}`,
@@ -60,11 +60,11 @@ export default function transactiontable() {
     }
     setnextkey(transaction_res_JSON.nextkey);
     setflow("");
-    console.log(
+    /* console.log(
       `Transaction table - previouskey : ${JSON.stringify(
         previouskey
       )} - nextkey : ${nextkey}`
-    );
+    ); */
   }, [page]);
 
   return (

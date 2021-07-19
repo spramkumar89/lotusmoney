@@ -4,7 +4,7 @@ const loadtransactions = require("../../../backend/user/transaction");
 export default async function handler(req, res) {
   switch (req.method) {
     case "GET":
-      console.log(`req.query - ${JSON.stringify(req.query)}`);
+      //console.log(`req.query - ${JSON.stringify(req.query)}`);
       let key = "";
       if (req.query.startkey && req.query.startkey !== "") {
         key = req.query.startkey.split(",");
@@ -15,9 +15,9 @@ export default async function handler(req, res) {
         req.query.name,
         key
       );
-      console.log(
+      /* console.log(
         `>>>>>>>>>>>>>>>>>>>>>>> : ${JSON.stringify(transaction_res)}`
-      );
+      ); */
       if (!transaction_res) {
         console.log(
           `Monthly transactions API error has occured: ${JSON.stringify(
@@ -36,11 +36,11 @@ export default async function handler(req, res) {
       } else {
         transaction_res["nextkey"] = transaction_res.rows.pop().key;
       }
-      console.log(
+      /* console.log(
         `Transaction page API transaction response : ${JSON.stringify(
           transaction_res
         )}`
-      );
+      ); */
       res.status(200).json(transaction_res);
       break;
     default:

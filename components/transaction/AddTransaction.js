@@ -3,11 +3,11 @@ import { getSession } from "next-auth/client";
 import moment from "moment";
 
 function transaction({ userconfig, setuserconfig, showmenu }) {
-  console.log(
+  /* console.log(
     `**************${JSON.stringify(userconfig)} , categories : ${
       userconfig.categories
     } , showmenu : ${showmenu}`
-  );
+  ); */
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
@@ -25,9 +25,9 @@ function transaction({ userconfig, setuserconfig, showmenu }) {
       }),
     })
       .then((res) => {
-        console.log(`Front end authentication response ${JSON.stringify(res)}`);
+        //console.log(`Front end authentication response ${JSON.stringify(res)}`);
         if (res.ok) {
-          console.log(`res ok ${res}`);
+          //console.log(`res ok ${res}`);
         } else {
           console.log(`res ok else ${res}`);
         }

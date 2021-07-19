@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         incomeCategories: userConfig_JSON.incomeCategories,
         expenseCategories: userConfig_JSON.expenseCategories,
       }; */
-      console.log(`userConfig_JSON ${JSON.stringify(userConfig_JSON)}`);
+      //console.log(`userConfig_JSON ${JSON.stringify(userConfig_JSON)}`);
       res.status(200).json(userConfig_JSON);
       break;
     default:
