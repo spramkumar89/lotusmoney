@@ -11,7 +11,7 @@ export default async function handler(req, res) {
         )}, req.body : ${JSON.stringify(req.body)}`
       );
 
-      response = await transaction.add("test", {
+      response = await transaction.add(req.body.userdb, {
         date: req.body.date,
         account: req.body.account,
         description: req.body.description,

@@ -10,17 +10,22 @@
   "dependencies": {
     "@headlessui/react": "^1.2.0",
     "@heroicons/react": "^1.0.1",
+    "@popperjs/core": "^2.9.2",
     "@tailwindcss/forms": "^0.3.3",
     "base-64": "^1.0.0",
     "chart.js": "^3.3.2",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "nano": "^9.0.3",
     "next": "10.2.3",
     "next-auth": "^3.27.1",
+    "next-connect": "^0.10.1",
     "react": "17.0.2",
     "react-chartjs-2": "^3.0.3",
     "react-dom": "17.0.2",
-    "sib-api-v3-sdk": "^8.2.0"
+    "react-popper": "^2.2.5",
+    "sib-api-v3-sdk": "^8.2.0",
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@types/node": "^15.6.1",
