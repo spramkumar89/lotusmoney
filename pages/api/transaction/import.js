@@ -1,6 +1,4 @@
 const formidable = require("formidable");
-const path = require("path");
-const fs = require("fs");
 
 export default async function handler(req, res) {
   switch (req.method) {
@@ -9,8 +7,9 @@ export default async function handler(req, res) {
       const form = new formidable.IncomingForm();
       form.uploadDir = "./upload";
       form.keepExtensions = true;
+      console.log(`Going to call parse method`);
       form.parse(req, (err, fields, files) => {
-        console.log(err, fields, files);
+        console.log("Inside the form parse method : " + err, fields, files);
         res.send(err || "DONE");
       });
       break;

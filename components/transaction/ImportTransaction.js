@@ -45,20 +45,42 @@ function ImportTransaction({ userconfig, setuserconfig, showmenu }) {
       }
     >
       <div className="grid grid-flow-col gap-2 mb-2 mt-2 items-center justify-center bg-grey-lighter">
-        <label className="w-64 flex flex-row items-center justify-center justify-items-center px-2 py-2 bg-blue-100 text-gray-900 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-200 hover:text-gray-800 select-none">
-          <svg
-            className="w-8 h-8"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
+        <label className="w-128 flex flex-row items-center justify-center justify-items-center px-2 py-2 bg-blue-100 text-gray-900 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-200 hover:text-gray-800 select-none">
+          <select
+            name="account"
+            className="form-select block w-full px-4 rounded-lg bg-gray-200 font-mono flex-none"
+            defaultValue={"DEFAULT"}
           >
-            <path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-          </svg>
-          <span className="pl-4 text-base leading-normal">Select a file</span>
+            <option value="DEFAULT" disabled hidden>
+              Select the source
+            </option>
+            <option
+              disabled
+              className="bg-yellow-500 font-mono text-sm text-gray-700 font-semibold"
+            >
+              ACCOUNTS
+            </option>
+            {userconfig.accounts.map((account, key) => (
+              <option className="bg-blue-300 text-gray-700" key={account}>
+                {account}
+              </option>
+            ))}
+            <option
+              disabled
+              className="bg-yellow-500 font-mono text-sm text-gray-700 font-semibold"
+            >
+              CARDS
+            </option>
+            {userconfig.cards.map((card, key) => (
+              <option className="bg-blue-300 text-gray-700" key={card}>
+                {card}
+              </option>
+            ))}
+          </select>
           <input
             type="file"
             name="files"
-            className="hidden"
+            className=""
             onChange={onChangeHandler}
           />
         </label>
