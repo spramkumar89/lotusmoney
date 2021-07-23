@@ -1,21 +1,6 @@
 import Nano from "nano";
 const nano = Nano(String(process.env.DBURL));
 
-/* interface User {
-_id:string;
-name:string;
-roles?:string[];
-type?:string;
-password?:string;
-email?:string;
-}
- */
-/**
- * This function is used to Create new User record
- * 1. New User record in _Users table
- * 2. New Database created for the user with the name same as UserName
- * 3. Roles are updated for the new Database to allow the User & Admin credentials to access it
- */
 export async function create(user) {
   try {
     let record = {};
@@ -50,17 +35,33 @@ export async function create(user) {
       docType: "userconfig",
       userName: record.name,
       emailId: record.email,
-      categories: [],
       accounts: [],
       cards: [],
+      incomeCategories: [],
+      expenseCategories: [],
+      goals: [],
     };
     await userDB.insert(userRecord);
 
     let designdoc = {
-      updates: {
-        updateCategory:
-          "function(document, request){if (document != null){document['categories']=req.body.categories;return [document, 'Added the requested fields'];}return [null, 'No such document'];}",
+      _id: "_design/lotus",
+      views: {
+        monthlytransactions: {
+          map: 'function (doc) {\n  if (doc.doc_type==\'transaction\' && doc.date) {\n    let date = doc.date.split("-");\n    date.push(doc._id);\n    emit(date, {"date":doc.date,"description":doc.description,"amount":doc.amount,"_id":doc._id,"category":doc.category});\n  }\n}',
+        },
+        monthlycategories: {
+          map: "function (doc) {\n  if (doc.doc_type=='transaction' && doc.category && doc.amount) {\n    emit(doc.category, parseFloat(doc.amount));\n  }\n}",
+          reduce:
+            "function (keys, values, rereduce) {\n   return sum(values);\n}",
+        },
+        toptransactions: {
+          map: 'function (doc) {\n  if (doc.doc_type==\'transaction\' && doc.amount) {\n    emit(parseFloat(doc.amount), {"date":doc.date,"description":doc.description,"amount":doc.amount,"_id":doc._id});\n  }\n}',
+        },
+        uncategorized: {
+          map: 'function (doc) {\n  if (doc.doc_type==\'transaction\' && doc.date && doc.category==\'Uncategorized\') {\n    let date = doc.date.split("-");\n    emit(date, {"date":doc.date,"description":doc.description,"amount":doc.amount,"_id":doc._id});\n  }\n}',
+        },
       },
+      language: "javascript",
     };
     await userDB.insert(designdoc, "_design/lotus");
 
@@ -68,16 +69,11 @@ export async function create(user) {
     console.log(`Result : ` + JSON.stringify(rolesResponse));
     return rolesResponse;
   } catch (e) {
-    console.log(`Exception while creating user database ${e}`);
+    console.error(`Exception while creating user database : `, e);
     return e;
   }
 }
 
-/**
- * This function is used to Delete User record
- * 1. Delete User record in _Users table
- * 2. Delete User Database named same as UserName
- */
 export async function deleteData(user) {
   let record = {};
   record.name = user.email.substring(0, user.email.lastIndexOf("@"));
@@ -102,16 +98,11 @@ export async function deleteData(user) {
     );
     return deleteUserResponse;
   } catch (e) {
-    console.log(`Deleting user database and record ${e}`);
+    console.error(`Deleting user database and record : `, e);
     return e;
   }
 }
 
-/**
- * This function is used to Update User record
- * 1. Delete User record in _Users table
- * 2. Delete User Database named same as UserName
- */
 export async function update(user) {
   user.name = user.email.substring(0, user.email.lastIndexOf("@"));
   user._id = "org.couchdb.user:" + user.name;
@@ -125,14 +116,11 @@ export async function update(user) {
     );
     return userResponse;
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return e;
   }
 }
 
-/**
- * This function is used to Authenticate User
- */
 export async function authenticate(user) {
   console.log(`Inside create user api ${JSON.stringify(user)}`);
   //let record = {};
@@ -145,7 +133,7 @@ export async function authenticate(user) {
     console.log(`Authentication response : ` + JSON.stringify(response));
     return response;
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return e;
   }
 }

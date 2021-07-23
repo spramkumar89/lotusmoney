@@ -1,11 +1,20 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-const account = require("../../../backend/user/account");
-
 export default async function handler(req, res) {
   let response = {};
   switch (req.method) {
     case "GET":
+      console.log("Inside the monthly transactions API");
       let monthly_trans_res = await fetch(
+        `${process.env.DBURL}/${
+          req.query.name
+        }/_design/lotus/_view/monthlytransactions?startkey=["2021",\"${(
+          "0" +
+          (new Date().getMonth() + 1)
+        ).slice(-2)}\","01"]&endkey=["2021",\"${(
+          "0" +
+          (new Date().getMonth() + 1)
+        ).slice(-2)}\","31"]`
+      );
+      console.log(
         `${process.env.DBURL}/${
           req.query.name
         }/_design/lotus/_view/monthlytransactions?startkey=["2021",\"${(

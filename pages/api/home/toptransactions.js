@@ -1,6 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-const account = require("../../../backend/user/account");
-
 export default async function handler(req, res) {
   let response = {};
   switch (req.method) {
