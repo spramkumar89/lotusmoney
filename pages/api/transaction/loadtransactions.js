@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       ); */
       if (!transaction_res) {
         console.log(
-          `Monthly transactions API error has occured: ${JSON.stringify(
+          `Load transactions API error has occured: ${JSON.stringify(
             transaction_res
           )}`
         );
