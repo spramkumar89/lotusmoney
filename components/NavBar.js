@@ -12,14 +12,31 @@ const profile = ["Your Profile", "Settings", "Signout"];
 const profileValues = ["/home", "/home", "/"];
 const features = ["Categories", "Rules", "Accounts", "Goals", "Budget"];
 const featuresValues = ["/categories", "/home", "/accounts", "/home", "/home"];
+const months = [
+  undefined,
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-function navbar() {
+function navbar({ selectedmonth }) {
   const [session] = useSession();
-  //console.log(`NavBar Session inside component ${JSON.stringify(session)}`);
+  /* console.log(
+    `NavBar Session inside component ${JSON.stringify(selectedmonth)}`
+  ); */
   const router = useRouter();
 
   return (
@@ -99,6 +116,21 @@ function navbar() {
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
+                    <select
+                      name="account"
+                      className="form-select mr-4 my-4 h-10 rounded-lg bg-gray-200 font-mono"
+                      defaultValue={"DEFAULT"}
+                    >
+                      {selectedmonth.map((item, itemIdx) => (
+                        <option
+                          className="bg-blue-300 text-gray-700"
+                          key={itemIdx}
+                        >
+                          {`${months[parseInt(item.key[0])]} ${item.key[1]}`}
+                        </option>
+                      ))}
+                    </select>
+
                     <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                       <span className="sr-only">View notifications</span>
                       <BellIcon className="h-6 w-6" aria-hidden="true" />

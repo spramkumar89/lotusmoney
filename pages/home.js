@@ -15,6 +15,7 @@ export default function home() {
   const [toptransactions, settoptransactions] = useState([]);
   const [categoryWiseAmounts, setcategoryWiseAmounts] = useState([]);
   const [uncategorizedTrans, setuncategorizedTrans] = useState([]);
+  const [selectedmonth, setselectedmonth] = useState([]);
 
   useEffect(async () => {
     const session = await getSession();
@@ -93,11 +94,35 @@ export default function home() {
     let uncategorized_JSON = await uncategorized.json();
     console.log(`uncategorized ${JSON.stringify(uncategorized_JSON)}`);
     setuncategorizedTrans(uncategorized_JSON.rows);
+
+    //Loading available months****************************************************
+    console.log("process env DBURL : " + process.env.DBURL);
+    console.log(
+      "session.user.name.toLowerCase : " + session.user.name.toLowerCase()
+    );
+    const months = await fetch(
+      "/api/home/months?" +
+        new URLSearchParams({
+          name: session.user.name.toLowerCase(),
+        }),
+      {
+        method: "GET",
+      }
+    );
+    if (!months.ok) {
+      console.log(`An error has occured: ${months}`);
+      months.rows = "NO_USER_RECORD";
+    }
+    let months_JSON = await months.json();
+    console.log(
+      `months--------------------------> ${JSON.stringify(months_JSON)}`
+    );
+    setselectedmonth(months_JSON.rows);
   }, []);
 
   return (
     <div>
-      <NavBar />
+      <NavBar selectedmonth={selectedmonth} />
       <div className="border border-t-2 border-blue-300"></div>
 
       <main className="bg-gray-50">
