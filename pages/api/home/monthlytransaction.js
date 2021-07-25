@@ -2,27 +2,17 @@ export default async function handler(req, res) {
   let response = {};
   switch (req.method) {
     case "GET":
-      console.log("Inside the monthly transactions API");
+      console.log("Inside the monthly transactions API : " + req.query.month);
       let monthly_trans_res = await fetch(
         `${process.env.DBURL}/${
           req.query.name
-        }/_design/lotus/_view/monthlytransactions?startkey=["2021",\"${(
+        }/_design/lotus/_view/monthlytransactions?startkey=["${
+          req.query.year
+        }",\"${("0" + (parseInt(req.query.month) + 1)).slice(
+          -2
+        )}\","01"]&endkey=["${req.query.year}",\"${(
           "0" +
-          (new Date().getMonth() + 1)
-        ).slice(-2)}\","01"]&endkey=["2021",\"${(
-          "0" +
-          (new Date().getMonth() + 1)
-        ).slice(-2)}\","31"]`
-      );
-      console.log(
-        `${process.env.DBURL}/${
-          req.query.name
-        }/_design/lotus/_view/monthlytransactions?startkey=["2021",\"${(
-          "0" +
-          (new Date().getMonth() + 1)
-        ).slice(-2)}\","01"]&endkey=["2021",\"${(
-          "0" +
-          (new Date().getMonth() + 1)
+          (parseInt(req.query.month) + 1)
         ).slice(-2)}\","31"]`
       );
       let monthly_transaction_res;

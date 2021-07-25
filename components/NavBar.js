@@ -12,7 +12,7 @@ const profile = ["Your Profile", "Settings", "Signout"];
 const profileValues = ["/home", "/home", "/"];
 const features = ["Categories", "Rules", "Accounts", "Goals", "Budget"];
 const featuresValues = ["/categories", "/home", "/accounts", "/home", "/home"];
-const months = [
+const monthsarr = [
   undefined,
   "Jan",
   "Feb",
@@ -32,12 +32,16 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-function navbar({ selectedmonth }) {
+function navbar({ months, selectedmonth, setselectedmonth }) {
   const [session] = useSession();
-  /* console.log(
-    `NavBar Session inside component ${JSON.stringify(selectedmonth)}`
-  ); */
+  console.log(`NavBar Session inside component ${JSON.stringify(months)}`);
   const router = useRouter();
+
+  function onMonthChange(event) {
+    console.log("Inside the month change method : " + event.target.value);
+    sessionStorage.setItem("selectedmonth", event.target.value);
+    setselectedmonth(event.target.value);
+  }
 
   return (
     <>
@@ -120,13 +124,14 @@ function navbar({ selectedmonth }) {
                       name="account"
                       className="form-select mr-4 my-4 h-10 rounded-lg bg-gray-200 font-mono"
                       defaultValue={"DEFAULT"}
+                      onChange={onMonthChange}
                     >
-                      {selectedmonth.map((item, itemIdx) => (
+                      {months.map((item, itemIdx) => (
                         <option
                           className="bg-blue-300 text-gray-700"
                           key={itemIdx}
                         >
-                          {`${months[parseInt(item.key[0])]} ${item.key[1]}`}
+                          {`${monthsarr[parseInt(item.key[0])]} ${item.key[1]}`}
                         </option>
                       ))}
                     </select>
