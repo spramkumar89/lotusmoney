@@ -15,16 +15,42 @@ export default function home() {
   const [toptransactions, settoptransactions] = useState([]);
   const [categoryWiseAmounts, setcategoryWiseAmounts] = useState([]);
   const [uncategorizedTrans, setuncategorizedTrans] = useState([]);
+  const [selectedmonth, setselectedmonth] = useState("");
+  const [months, setmonths] = useState([]);
+  const monthsarr = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  let loadTransactionsForMonth = new Date();
 
   useEffect(async () => {
     const session = await getSession();
     console.log(`Home page session values ${JSON.stringify(session)}`);
+    if (selectedmonth.length > 0) {
+      let month = monthsarr.indexOf(selectedmonth.split(" ")[0]);
+      let year = selectedmonth.split(" ")[1];
+      loadTransactionsForMonth.setMonth(month);
+      loadTransactionsForMonth.setFullYear(year);
+      console.log(`loadTransactionsForMonth ${loadTransactionsForMonth}`);
+    }
 
     // Loading MONTHLY_TRANSACTIONS ******************************************************************
     const monthly_transaction_res = await fetch(
       "/api/home/monthlytransaction?" +
         new URLSearchParams({
           name: session.user.name.toLowerCase(),
+          month: loadTransactionsForMonth.getMonth(),
+          year: loadTransactionsForMonth.getFullYear(),
         }),
       {
         method: "GET",
@@ -40,11 +66,13 @@ export default function home() {
     );
     setmonthlytransactions(monthly_transaction_res_JSON.rows);
 
-    // Loading TOP_TRANSACTIONS ******************************************************************
+    // Loading TOP_TRANSACTIONS ******************************************************************||||||||||||||
     const top_transaction_res = await fetch(
       "/api/home/toptransactions?" +
         new URLSearchParams({
           name: session.user.name.toLowerCase(),
+          month: loadTransactionsForMonth.getMonth(),
+          year: loadTransactionsForMonth.getFullYear(),
         }),
       {
         method: "GET",
@@ -63,6 +91,8 @@ export default function home() {
       "/api/home/categoryvalues?" +
         new URLSearchParams({
           name: session.user.name.toLowerCase(),
+          month: loadTransactionsForMonth.getMonth(),
+          year: loadTransactionsForMonth.getFullYear(),
         }),
       {
         method: "GET",
@@ -81,6 +111,8 @@ export default function home() {
       "/api/home/uncategorized?" +
         new URLSearchParams({
           name: session.user.name.toLowerCase(),
+          month: loadTransactionsForMonth.getMonth(),
+          year: loadTransactionsForMonth.getFullYear(),
         }),
       {
         method: "GET",
@@ -93,11 +125,39 @@ export default function home() {
     let uncategorized_JSON = await uncategorized.json();
     console.log(`uncategorized ${JSON.stringify(uncategorized_JSON)}`);
     setuncategorizedTrans(uncategorized_JSON.rows);
-  }, []);
+
+    //Loading available months****************************************************
+    console.log("process env DBURL : " + process.env.DBURL);
+    console.log(
+      "session.user.name.toLowerCase : " + session.user.name.toLowerCase()
+    );
+    const monthsres = await fetch(
+      "/api/home/months?" +
+        new URLSearchParams({
+          name: session.user.name.toLowerCase(),
+        }),
+      {
+        method: "GET",
+      }
+    );
+    if (!monthsres.ok) {
+      console.log(`An error has occured: ${monthsres}`);
+      monthsres.rows = "NO_USER_RECORD";
+    }
+    let monthsjson = await monthsres.json();
+    console.log(
+      `months--------------------------> ${JSON.stringify(monthsjson)}`
+    );
+    setmonths(monthsjson.rows);
+  }, [selectedmonth]);
 
   return (
     <div>
-      <NavBar />
+      <NavBar
+        months={months}
+        selectedmonth={selectedmonth}
+        setselectedmonth={setselectedmonth}
+      />
       <div className="border border-t-2 border-blue-300"></div>
 
       <main className="bg-gray-50">
