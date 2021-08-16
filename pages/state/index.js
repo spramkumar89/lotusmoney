@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./userSlice";
-import appConfigSlice from "./appConfig";
+import appConfigSlice from "./appConfigSlice";
 import transactionsSlice from "./transactionsSlice";
 import categoryWiseAmountsSlice from "./categoryWiseAmountsSlice";
 import monthlyTransactionsSlice from "./monthlyTransactionsSlice";
