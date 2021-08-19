@@ -8,11 +8,11 @@ export default async function handler(req, res) {
   );
   switch (req.method) {
     case "POST":
-      let userconfig = req.body.userconfig;
+      let userRecord = req.body.userRecord;
       console.log(
-        `URL formed is ${`${process.env.DBURL}/${req.query.name}/${userconfig._id}`}`
+        `URL formed is ${`${process.env.DBURL}/${req.query.name}/${userRecord._id}`}`
       );
-      let userConfig = await fetch(
+      let userRecordResponse = await fetch(
         `${process.env.DBURL}/${req.query.name}/userconfig`,
         {
           method: "PUT",
@@ -20,25 +20,29 @@ export default async function handler(req, res) {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(userconfig),
+          body: JSON.stringify(userRecord),
         }
       );
 
-      if (!userConfig.ok) {
-        console.log(`UserConfig API error has occured: ${userConfig.status}`);
-        userConfig.rows = "NO_SETTINGS";
+      if (!userRecordResponse.ok) {
+        console.log(
+          `userRecordResponse API error has occured: ${userRecordResponse.status}`
+        );
+        userRecordResponse.rows = "NO_SETTINGS";
         console.log(`Reponse NOT OK`);
-        res.status(400).json(userConfig);
+        res.status(400).json(userRecordResponse);
       }
-      const userConfig_JSON = await userConfig.json();
+      const userRecordResponse_JSON = await userRecordResponse.json();
       /* let result = {
-        accounts: userConfig_JSON.accounts,
-        cards: userConfig_JSON.cards,
-        incomeCategories: userConfig_JSON.incomeCategories,
-        expenseCategories: userConfig_JSON.expenseCategories,
+        accounts: userRecordResponse_JSON.accounts,
+        cards: userRecordResponse_JSON.cards,
+        incomeCategories: userRecordResponse_JSON.incomeCategories,
+        expenseCategories: userRecordResponse_JSON.expenseCategories,
       }; */
-      console.log(`userConfig_JSON ${JSON.stringify(userConfig_JSON)}`);
-      res.status(200).json(userConfig_JSON);
+      console.log(
+        `userRecordResponse_JSON ${JSON.stringify(userRecordResponse_JSON)}`
+      );
+      res.status(200).json(userRecordResponse_JSON);
       break;
     default:
       res.send(

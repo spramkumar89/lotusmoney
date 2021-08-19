@@ -4,7 +4,7 @@ import AddButton from "../components/settings/AddButton";
 import { useEffect } from "react";
 import { getSession } from "next-auth/client";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserState } from "./state/userSlice";
+import { loadUserState } from "./state/userSlice";
 import { updateAppConfig } from "./state/appConfigSlice";
 
 export default function home() {
@@ -34,7 +34,7 @@ export default function home() {
     let userConfigs_JSON = await userConfigs.json();
     console.log(`Loading user record : ${JSON.stringify(userConfigs_JSON)}`);
 
-    dispatch(updateUserState(userConfigs_JSON));
+    dispatch(loadUserState(userConfigs_JSON));
   }, []);
 
   //Loading User Goals, Income/Expense Categories
@@ -42,7 +42,7 @@ export default function home() {
     const session = await getSession();
     console.log(`Home page session values ${JSON.stringify(session)}`);
     const apiConfigs = await fetch(
-      "/api/settings/apiConfig?" +
+      "/api/settings/appConfig?" +
         new URLSearchParams({ name: session.user.name.toLowerCase() }),
       { method: "GET" }
     );

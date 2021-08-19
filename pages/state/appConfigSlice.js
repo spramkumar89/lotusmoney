@@ -18,13 +18,13 @@ export const appConfigSlice = createSlice({
       return action.payload;
     },
     addIncomeCategory: (state, action) => {
-      state.incomeCategories = state.incomeCategories.push(action.payload);
+      state.incomeCategories.push(action.payload);
     },
     addExpenseCategory: (state, action) => {
-      state.expenseCategories = state.expenseCategories.push(action.payload);
+      state.expenseCategories.push(action.payload);
     },
     addGoal: (state, action) => {
-      state.goals = state.goals.push(action.payload);
+      state.goals.push(action.payload);
     },
   },
 });

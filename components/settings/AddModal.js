@@ -1,10 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import router from "next/router";
 import { Fragment, useState, useCallback } from "react";
-import { getSession } from "next-auth/client";
-import { cloneDeep } from "lodash";
-import { useDispatch } from "react-redux";
-import { addAccount, addCard } from "../../pages/state/userSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser, addAccount, addCard } from "../../pages/state/userSlice";
 import {
   addIncomeCategory,
   addExpenseCategory,
@@ -12,63 +9,59 @@ import {
 } from "../../pages/state//appConfigSlice";
 
 export default function MyModal({ title, isOpen, setIsOpen }) {
+  let userRecord = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const saveToDatabase = async (label, userconfig) => {
-    const session = await getSession();
-    console.log(
-      `Modal title ${title} updating the db now : ${JSON.stringify(userconfig)}`
-    );
+  const saveToDatabase = async (label) => {
+    console.log(`Before : UserState : ${JSON.stringify(userRecord)}`);
     if (title == "Add Account") {
       console.log(`label : ${label}`);
-      console.log(`Before : userconfig.accounts : ${userconfig.accounts}`);
-      userconfig.accounts.push(label);
-      console.log(`After : userconfig.accounts : ${userconfig.accounts}`);
       dispatch(addAccount(label));
     } else if (title == "Add Card") {
-      userconfig.cards.push(label);
       dispatch(addCard(label));
     } else if (title == "Add Income Category") {
-      userconfig.incomeCategories.push(label);
       dispatch(addIncomeCategory(label));
     } else if (title == "Add Goals") {
-      userconfig.goals.push(label);
       dispatch(addGoal(label));
     } else {
-      userconfig.expenseCategories.push(label);
       dispatch(addExpenseCategory(label));
     }
-
-    // Loading USER_SETTINGS
-    const userConfigs = await fetch(
-      "/api/settings/updateuserconfig?" +
-        new URLSearchParams({
-          name: session.user.name.toLowerCase(),
-        }),
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userconfig,
-        }),
-      }
-    );
-    if (!userConfigs.ok) {
-      console.log(
-        `User config API error has occured: ${JSON.stringify(userConfigs)}`
+    console.log(`After : UserState : ${JSON.stringify(userRecord)}`);
+    //Update user record in database
+    /* const updateUserRecord = async (userRecord) => {
+      const userRecordResponse = await fetch(
+        "/api/settings/updateuserconfig?" +
+          new URLSearchParams({
+            name: session.user.name.toLowerCase(),
+          }),
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userRecord,
+          }),
+        }
       );
-    }
-    const userConfigs_JSON = await userConfigs.json();
-    console.log(
-      `userConfigs_JSON update response : ${JSON.stringify(userConfigs_JSON)}`
-    );
-    userconfig._rev = userConfigs_JSON.rev;
-    console.log(
-      `*******************userconfig update response : ${JSON.stringify(
-        userconfig
-      )}`
-    );
-    setuserconfig(cloneDeep(userconfig));
+      if (!userRecordResponse.ok) {
+        console.log(
+          `Error occured during User record update : ${JSON.stringify(
+            userRecordResponse
+          )}`
+        );
+      }
+      const userRecordResponse_JSON = await userRecordResponse.json();
+      console.log(
+        `userConfigs_JSON update response : ${JSON.stringify(
+          userRecordResponse_JSON
+        )}`
+      );
+      //dispatch(updateUserRevision(userRecordResponse_JSON));
+    };
+
+    updateUserRecord(); */
+
+    dispatch(updateUser(label));
+
     setIsOpen(false);
   };
 
@@ -76,9 +69,8 @@ export default function MyModal({ title, isOpen, setIsOpen }) {
     event.preventDefault();
 
     console.log("Button clicked : " + event.target.category.value);
-    console.log("**********userconfig : " + JSON.stringify(userconfig));
     console.log("Title : " + title);
-    saveToDatabase(event.target.category.value, userconfig);
+    saveToDatabase(event.target.category.value);
   };
 
   function closeModal() {
@@ -159,22 +151,4 @@ export default function MyModal({ title, isOpen, setIsOpen }) {
       </Transition>
     </>
   );
-
-  const updateUserRecord = async () => {
-    const session = await getSession();
-    console.log(`Home page session values ${JSON.stringify(session)}`);
-    const userConfigs = await fetch(
-      "/api/settings/user?" +
-        new URLSearchParams({ name: session.user.name.toLowerCase() }),
-      { method: "GET" }
-    );
-    if (!userConfigs.ok) {
-      console.log(`User config API error has occured: ${userConfigs}`);
-    }
-    let userConfigs_JSON = await userConfigs.json();
-    console.log(`Loading user record : ${JSON.stringify(userConfigs_JSON)}`);
-
-    dispatch(updateAccounts(userConfigs_JSON.accounts));
-    dispatch(updateCards(userConfigs_JSON.cards));
-  };
 }
