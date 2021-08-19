@@ -1,85 +1,40 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState, useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { Fragment } from "react";
+import { useDispatch } from "react-redux";
 import { updateUser, addAccount, addCard } from "../../pages/state/userSlice";
 import {
+  updateAppConfig,
   addIncomeCategory,
   addExpenseCategory,
   addGoal,
 } from "../../pages/state//appConfigSlice";
 
 export default function MyModal({ title, isOpen, setIsOpen }) {
-  let userRecord = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
-  const saveToDatabase = async (label) => {
-    console.log(`Before : UserState : ${JSON.stringify(userRecord)}`);
-    if (title == "Add Account") {
-      console.log(`label : ${label}`);
-      dispatch(addAccount(label));
-    } else if (title == "Add Card") {
-      dispatch(addCard(label));
-    } else if (title == "Add Income Category") {
-      dispatch(addIncomeCategory(label));
-    } else if (title == "Add Goals") {
-      dispatch(addGoal(label));
-    } else {
-      dispatch(addExpenseCategory(label));
-    }
-    console.log(`After : UserState : ${JSON.stringify(userRecord)}`);
-    //Update user record in database
-    /* const updateUserRecord = async (userRecord) => {
-      const userRecordResponse = await fetch(
-        "/api/settings/updateuserconfig?" +
-          new URLSearchParams({
-            name: session.user.name.toLowerCase(),
-          }),
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userRecord,
-          }),
-        }
-      );
-      if (!userRecordResponse.ok) {
-        console.log(
-          `Error occured during User record update : ${JSON.stringify(
-            userRecordResponse
-          )}`
-        );
-      }
-      const userRecordResponse_JSON = await userRecordResponse.json();
-      console.log(
-        `userConfigs_JSON update response : ${JSON.stringify(
-          userRecordResponse_JSON
-        )}`
-      );
-      //dispatch(updateUserRevision(userRecordResponse_JSON));
-    };
-
-    updateUserRecord(); */
-
-    dispatch(updateUser(label));
-
-    setIsOpen(false);
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    let label = event.target.category.value;
     console.log("Button clicked : " + event.target.category.value);
-    console.log("Title : " + title);
-    saveToDatabase(event.target.category.value);
-  };
+    if (title == "Add Account") {
+      dispatch(addAccount(label));
+      dispatch(updateUser(label));
+    } else if (title == "Add Card") {
+      dispatch(addCard(label));
+      dispatch(updateUser(label));
+    } else if (title == "Add Income Category") {
+      dispatch(addIncomeCategory(label));
+      dispatch(updateAppConfig(label));
+    } else if (title == "Add Goals") {
+      dispatch(addGoal(label));
+      dispatch(updateAppConfig(label));
+    } else {
+      dispatch(addExpenseCategory(label));
+      dispatch(updateAppConfig(label));
+    }
 
-  function closeModal() {
     setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
+  };
 
   return (
     <>
@@ -87,7 +42,7 @@ export default function MyModal({ title, isOpen, setIsOpen }) {
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          onClose={() => setIsOpen(false)}
         >
           <div className="min-h-screen px-4 text-center">
             <Transition.Child

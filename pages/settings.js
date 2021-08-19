@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { getSession } from "next-auth/client";
 import { useSelector, useDispatch } from "react-redux";
 import { loadUserState } from "./state/userSlice";
-import { updateAppConfig } from "./state/appConfigSlice";
+import { loadAppConfig } from "./state/appConfigSlice";
 
 export default function home() {
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ export default function home() {
       `Loading apiConfig record : ${JSON.stringify(apiConfigs_JSON)}`
     );
 
-    dispatch(updateAppConfig(apiConfigs_JSON));
+    dispatch(loadAppConfig(apiConfigs_JSON));
   }, []);
 
   return (

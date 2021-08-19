@@ -21,7 +21,7 @@ export const updateUser = createAsyncThunk(
       }`
     );
     const userRecordResponse = await fetch(
-      "/api/settings/updateuserconfig?" +
+      "/api/settings/updateUserConfig?" +
         new URLSearchParams({
           name: session.user.name.toLowerCase(),
         }),
@@ -41,11 +41,6 @@ export const updateUser = createAsyncThunk(
       );
     }
     const userRecordResponse_JSON = await userRecordResponse.json();
-    console.log(
-      `userConfigs_JSON update response : ${JSON.stringify(
-        userRecordResponse_JSON
-      )}`
-    );
     dispatch(updateUserStateRevision(userRecordResponse_JSON));
   }
 );
