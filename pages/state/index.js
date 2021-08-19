@@ -8,13 +8,13 @@ import topTransactionsSlice from "./topTransactionsSlice";
 import uncategorizedTransactionsSlice from "./uncategorizedTransactionsSlice";
 
 export const store = configureStore({
-  reducer: { 
+  reducer: {
     user: userSlice,
-    appConfig: appConfigSlice ,
+    appConfig: appConfigSlice,
     transactions: transactionsSlice,
-    categoryWiseAmounts : categoryWiseAmountsSlice,
-    monthlyTransactions : monthlyTransactionsSlice,
-    topTransaction : topTransactionsSlice,
-    uncategorizedTransactions : uncategorizedTransactionsSlice,
+    categoryWiseAmounts: categoryWiseAmountsSlice,
+    monthlyTransactions: monthlyTransactionsSlice,
+    topTransaction: topTransactionsSlice,
+    uncategorizedTransactions: uncategorizedTransactionsSlice,
   },
 });

@@ -3,29 +3,40 @@ import router from "next/router";
 import { Fragment, useState, useCallback } from "react";
 import { getSession } from "next-auth/client";
 import { cloneDeep } from "lodash";
+import { useDispatch } from "react-redux";
+import { addAccount, addCard } from "../../pages/state/userSlice";
+import {
+  addIncomeCategory,
+  addExpenseCategory,
+  addGoal,
+} from "../../pages/state//appConfigSlice";
 
-export default function MyModal({
-  title,
-  isOpen,
-  setIsOpen,
-  userconfig,
-  setuserconfig,
-}) {
+export default function MyModal({ title, isOpen, setIsOpen }) {
+  const dispatch = useDispatch();
+
   const saveToDatabase = async (label, userconfig) => {
     const session = await getSession();
     console.log(
       `Modal title ${title} updating the db now : ${JSON.stringify(userconfig)}`
     );
     if (title == "Add Account") {
+      console.log(`label : ${label}`);
+      console.log(`Before : userconfig.accounts : ${userconfig.accounts}`);
       userconfig.accounts.push(label);
+      console.log(`After : userconfig.accounts : ${userconfig.accounts}`);
+      dispatch(addAccount(label));
     } else if (title == "Add Card") {
       userconfig.cards.push(label);
+      dispatch(addCard(label));
     } else if (title == "Add Income Category") {
       userconfig.incomeCategories.push(label);
+      dispatch(addIncomeCategory(label));
     } else if (title == "Add Goals") {
       userconfig.goals.push(label);
+      dispatch(addGoal(label));
     } else {
       userconfig.expenseCategories.push(label);
+      dispatch(addExpenseCategory(label));
     }
 
     // Loading USER_SETTINGS
@@ -148,4 +159,22 @@ export default function MyModal({
       </Transition>
     </>
   );
+
+  const updateUserRecord = async () => {
+    const session = await getSession();
+    console.log(`Home page session values ${JSON.stringify(session)}`);
+    const userConfigs = await fetch(
+      "/api/settings/user?" +
+        new URLSearchParams({ name: session.user.name.toLowerCase() }),
+      { method: "GET" }
+    );
+    if (!userConfigs.ok) {
+      console.log(`User config API error has occured: ${userConfigs}`);
+    }
+    let userConfigs_JSON = await userConfigs.json();
+    console.log(`Loading user record : ${JSON.stringify(userConfigs_JSON)}`);
+
+    dispatch(updateAccounts(userConfigs_JSON.accounts));
+    dispatch(updateCards(userConfigs_JSON.cards));
+  };
 }

@@ -1,41 +1,60 @@
-/* This example requires Tailwind CSS v2.0+ */
 import NavBar from "../components/NavBar";
 import SettingCard from "../components/settings/SettingCard";
 import AddButton from "../components/settings/AddButton";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { getSession } from "next-auth/client";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserState } from "./state/userSlice";
+import { updateAppConfig } from "./state/appConfigSlice";
 
 export default function home() {
-  const router = useRouter();
-  let userConfigs_JSON = {};
-  userConfigs_JSON.accounts = [];
-  userConfigs_JSON.cards = [];
-  userConfigs_JSON.incomeCategories = [];
-  userConfigs_JSON.expenseCategories = [];
-  userConfigs_JSON.goals = [];
-  let [userconfig, setuserconfig] = useState(userConfigs_JSON);
+  const dispatch = useDispatch();
+  const incomeCategories = useSelector(
+    (state) => state.appConfig.incomeCategories
+  );
+  const expenseCategories = useSelector(
+    (state) => state.appConfig.expenseCategories
+  );
+  const goals = useSelector((state) => state.appConfig.goals);
+  const accounts = useSelector((state) => state.user.accounts);
+  const cards = useSelector((state) => state.user.cards);
 
+  //Loading User Accounts and Cards
   useEffect(async () => {
     const session = await getSession();
     console.log(`Home page session values ${JSON.stringify(session)}`);
-
-    // Loading USER_SETTINGS
     const userConfigs = await fetch(
-      "/api/settings/load?" +
-        new URLSearchParams({
-          name: session.user.name.toLowerCase(),
-        }),
-      {
-        method: "GET",
-      }
+      "/api/settings/user?" +
+        new URLSearchParams({ name: session.user.name.toLowerCase() }),
+      { method: "GET" }
     );
     if (!userConfigs.ok) {
       console.log(`User config API error has occured: ${userConfigs}`);
     }
-    userConfigs_JSON = await userConfigs.json();
-    console.log(`userConfigs_JSON : ${JSON.stringify(userConfigs_JSON)}`);
-    setuserconfig(userConfigs_JSON);
+    let userConfigs_JSON = await userConfigs.json();
+    console.log(`Loading user record : ${JSON.stringify(userConfigs_JSON)}`);
+
+    dispatch(updateUserState(userConfigs_JSON));
+  }, []);
+
+  //Loading User Goals, Income/Expense Categories
+  useEffect(async () => {
+    const session = await getSession();
+    console.log(`Home page session values ${JSON.stringify(session)}`);
+    const apiConfigs = await fetch(
+      "/api/settings/apiConfig?" +
+        new URLSearchParams({ name: session.user.name.toLowerCase() }),
+      { method: "GET" }
+    );
+    if (!apiConfigs.ok) {
+      console.log(`App config API error has occured: ${apiConfigs}`);
+    }
+    let apiConfigs_JSON = await apiConfigs.json();
+    console.log(
+      `Loading apiConfig record : ${JSON.stringify(apiConfigs_JSON)}`
+    );
+
+    dispatch(updateAppConfig(apiConfigs_JSON));
   }, []);
 
   return (
@@ -47,40 +66,40 @@ export default function home() {
             <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
               Accounts
             </div>
-            <SettingCard userconfig={userconfig} data={"Accounts"} />
+            <SettingCard data="Accounts" />
           </div>
 
           <div className="flex flex-col bg-gray-200 rounded-md shadow-lg h-64 w-screen/2 justify-items-center overflow-x-auto">
             <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
               Cards
             </div>
-            <SettingCard userconfig={userconfig} data={"Cards"} />
+            <SettingCard data="Cards" />
           </div>
 
           <div className="flex flex-col bg-gray-200 rounded-md shadow-lg h-64 w-screen/2 justify-items-center overflow-x-auto">
             <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
               Income Categories
             </div>
-            <SettingCard userconfig={userconfig} data={"IncomeCategories"} />
+            <SettingCard data="IncomeCategories" />
           </div>
 
           <div className="flex flex-col bg-gray-200 rounded-md shadow-lg h-64 w-screen/2 justify-items-center overflow-x-auto">
             <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
               Expense Categories
             </div>
-            <SettingCard userconfig={userconfig} data={"ExpenseCategories"} />
+            <SettingCard data="ExpenseCategories" />
           </div>
 
           <div className="flex flex-col bg-gray-200 rounded-md shadow-lg h-64 w-screen/2 justify-items-center overflow-x-auto">
             <div className="text-center text-xl text-gray-200 font-mono uppercase bg-indigo-300 py-1">
               Goals
             </div>
-            <SettingCard userconfig={userconfig} data={"Goals"} />
+            <SettingCard data="Goals" />
           </div>
         </div>
 
         <div className="fixed bottom-0 right-0 h-16 w-16">
-          <AddButton userconfig={userconfig} setuserconfig={setuserconfig} />
+          <AddButton />
         </div>
       </main>
     </div>

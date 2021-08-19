@@ -14,13 +14,6 @@ export default async function handler(req, res) {
         res.status(400).json(userConfig);
       }
       const userConfig_JSON = await userConfig.json();
-      /* let result = {
-        accounts: userConfig_JSON.accounts,
-        cards: userConfig_JSON.cards,
-        incomeCategories: userConfig_JSON.incomeCategories,
-        expenseCategories: userConfig_JSON.expenseCategories,
-      }; */
-      //console.log(`userConfig_JSON ${JSON.stringify(userConfig_JSON)}`);
       res.status(200).json(userConfig_JSON);
       break;
     default:

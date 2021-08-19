@@ -1,15 +1,15 @@
 import "../styles/globals.css";
-import { Provider } from "next-auth/client";
-import { Provider as NextAuthProvider } from "react-redux";
+import { Provider as NextAuthProvider } from "next-auth/client";
+import { Provider } from "react-redux";
 import { store } from "./state";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <NextAuthProvider store={store}>
-      <Provider session={pageProps.session}>
+    <Provider store={store}>
+      <NextAuthProvider session={pageProps.session}>
         <Component {...pageProps} />;
-      </Provider>
-    </NextAuthProvider>
+      </NextAuthProvider>
+    </Provider>
   );
 }
 

@@ -1,25 +1,27 @@
+import { useSelector, useDispatch } from "react-redux";
+
 function SettingCard({ data, userconfig }) {
   console.log(`settingcard - userconfig : ${JSON.stringify(userconfig)}`);
   console.log(`settingcard - data : ${data}`);
 
   let records = [];
   if (data == "Accounts") {
-    records = userconfig.accounts;
+    records = useSelector((state) => state.user.accounts);
   } else if (data == "Cards") {
-    records = userconfig.cards;
+    records = useSelector((state) => state.user.cards);
   } else if (data == "IncomeCategories") {
-    records = userconfig.incomeCategories;
+    records = useSelector((state) => state.appConfig.incomeCategories);
   } else if (data == "Goals") {
-    records = userconfig.goals;
+    records = useSelector((state) => state.appConfig.expenseCategories);
   } else {
-    records = userconfig.expenseCategories;
+    records = useSelector((state) => state.appConfig.goals);
   }
   console.log(`records : ${records}`);
   return (
     <div className="flex flex-wrap">
       {records.map((row, key) => (
         <div
-          className="bg-green-200 rounded-full px-2 py-1 m-1 shadow-md hover:bg-green-400"
+          className="bg-green-200 rounded-full px-2 py-1 m-2 shadow-md hover:bg-green-400"
           key={key}
         >
           {row}

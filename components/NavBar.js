@@ -32,7 +32,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-function navbar({ months, selectedmonth, setselectedmonth }) {
+function navbar({ months = [], selectedmonth, setselectedmonth }) {
   const [session] = useSession();
   console.log(`NavBar Session inside component ${JSON.stringify(months)}`);
   const router = useRouter();
