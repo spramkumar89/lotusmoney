@@ -14,6 +14,21 @@ export const updateAvailableMonths = createAsyncThunk(
   "home/updateAvailableMonths",
   async (args, { dispatch, getState }) => {
     const session = await getSession();
+    const monthsarr = [
+      undefined,
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     console.log(
       `home/updateAvailableMonths : URL : ${
         "/api/home/months?" +
@@ -40,12 +55,18 @@ export const updateAvailableMonths = createAsyncThunk(
       `home/updateAvailableMonths : ${JSON.stringify(monthResponse_JSON.rows)}`
     );
     dispatch(loadAvailableMonths(monthResponse_JSON.rows));
+
+    //Setting the selectedMonth variable
+    let result = monthResponse_JSON.rows;
+    let value = result[result.length - 1];
+    value = monthsarr[parseInt(value.key[0])] + " " + value.key[1];
+    dispatch(updateSelectedMonth(value));
   }
 );
 
 export const updateMonthlyTransactions = createAsyncThunk(
   "home/updateMonthlyTransactions",
-  async ({ date }, { dispatch, getState }) => {
+  async (date, { dispatch, getState }) => {
     const session = await getSession();
     const monthlyTransactionResponse = await fetch(
       "/api/home/monthlytransaction?" +
@@ -75,7 +96,7 @@ export const updateMonthlyTransactions = createAsyncThunk(
 
 export const updateTopTransactions = createAsyncThunk(
   "home/updateTopTransactions",
-  async ({ date }, { dispatch, getState }) => {
+  async (date, { dispatch, getState }) => {
     const session = await getSession();
     const topTransactionResponse = await fetch(
       "/api/home/toptransactions?" +
@@ -104,7 +125,7 @@ export const updateTopTransactions = createAsyncThunk(
 
 export const updateCategoryWiseAmounts = createAsyncThunk(
   "home/updateCategoryWiseAmounts",
-  async ({ date }, { dispatch, getState }) => {
+  async (date, { dispatch, getState }) => {
     const session = await getSession();
     const categoryWise = await fetch(
       "/api/home/categoryvalues?" +
@@ -130,7 +151,7 @@ export const updateCategoryWiseAmounts = createAsyncThunk(
 
 export const updateUncategorizedTransactions = createAsyncThunk(
   "home/updateUncategorizedTransactions",
-  async ({ date }, { dispatch, getState }) => {
+  async (date, { dispatch, getState }) => {
     const session = await getSession();
     const uncategorizedResponse = await fetch(
       "/api/home/uncategorized?" +

@@ -37,6 +37,7 @@ function classNames(...classes) {
 function navbar() {
   const dispatch = useDispatch();
   let availableMonths = useSelector((state) => state.home.availableMonths);
+  availableMonths = availableMonths.slice().sort().reverse();
   console.log(
     `NavBar Session inside component ${JSON.stringify(availableMonths)}`
   );
