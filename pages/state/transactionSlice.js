@@ -65,12 +65,7 @@ export const appConfigSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {
-  loadAppConfig,
-  updateAppConfigRevision,
-  addIncomeCategory,
-  addExpenseCategory,
-  addGoal,
-} = appConfigSlice.actions;
+export const { updateAddButton, updateImportButton, updateFilterButton } =
+  appConfigSlice.actions;
 
 export default appConfigSlice.reducer;

@@ -3,7 +3,7 @@ import { getSession } from "next-auth/client";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 
-function transaction({ userconfig, setuserconfig, showmenu }) {
+function transaction() {
   /* console.log(
     `**************${JSON.stringify(userconfig)} , categories : ${
       userconfig.categories
@@ -49,10 +49,7 @@ function transaction({ userconfig, setuserconfig, showmenu }) {
   }, []);
 
   return (
-    <form
-      className={"mt-3 " + (showmenu == "AddTransaction" ? "block" : "hidden")}
-      onSubmit={handleSubmit}
-    >
+    <form className={"mt-3"} onSubmit={handleSubmit}>
       <div className="grid grid-flow-row gap-2 mb-2 mt-2 px-4">
         <div className="px-4 py-2">
           <label htmlFor="date" className="text-gray-200">
