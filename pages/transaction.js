@@ -1,7 +1,6 @@
 import NavBar from "../components/NavBar";
 import AddTransaction from "../components/transaction/AddTransaction";
 import ImportTransaction from "../components/transaction/ImportTransaction";
-import TransactionTable from "../components/transaction/TransactionTable";
 import { useSelector, useDispatch } from "react-redux";
 import {
   updateAddButton,

@@ -49,12 +49,15 @@ export const appConfigSlice = createSlice({
   reducers: {
     updateAddButton: (state, action) => {
       state.addTransaction = !state.addTransaction;
+      state.importTransaction = state.filterTransaction = false;
     },
     updateImportButton: (state, action) => {
       state.importTransaction = !state.importTransaction;
+      state.addTransaction = state.filterTransaction = false;
     },
     updateFilterButton: (state, action) => {
       state.filterTransaction = !state.filterTransaction;
+      state.addTransaction = state.importTransaction = false;
     },
   },
   extraReducers: (builder) => {

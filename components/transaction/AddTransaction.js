@@ -31,6 +31,7 @@ function transaction() {
         description: event.target.description.value,
         amount: event.target.amount.value,
         category: event.target.category.value,
+        transactionType: event.target.transactionType.value,
       }),
     })
       .then((res) => {
@@ -50,8 +51,8 @@ function transaction() {
 
   return (
     <form className={"mt-3"} onSubmit={handleSubmit}>
-      <div className="grid grid-flow-row gap-2 mb-2 mt-2 px-4">
-        <div className="px-4 py-2">
+      <div className="flex flex-wrap mb-2 mt-2 px-4 w-full ">
+        <div className="flex flex-col px-4 py-2">
           <label htmlFor="date" className="text-gray-200">
             Transaction Date
           </label>
@@ -61,19 +62,35 @@ function transaction() {
             id="date"
             placeholder="Transaction Date"
             defaultValue={moment().format("yyyy-MM-DD")}
-            className="rounded-lg w-full bg-gray-200 border focus:border-blue-500 focus:bg-white focus:outline-none"
+            className="rounded-lg bg-gray-200"
             autoFocus
             autoComplete="true"
             required
           />
         </div>
-        <div className="px-4 py-2">
+        <div className="flex flex-col px-4 py-2">
+          <label htmlFor="transactionType" className="text-gray-200">
+            Transaction Type
+          </label>
+          <select
+            name="transactionType"
+            className="form-select rounded-lg font-mono"
+            defaultValue={"DEFAULT"}
+          >
+            <option value="DEFAULT" disabled hidden>
+              Transaction Type
+            </option>
+            <option className="bg-blue-300 text-gray-700">Income</option>
+            <option className="bg-blue-300 text-gray-700">Expense</option>
+          </select>
+        </div>
+        <div className="flex flex-col px-4 py-2">
           <label htmlFor="account" className="text-gray-200">
             Source Account
           </label>
           <select
             name="account"
-            className="form-select block w-full px-4 rounded-lg bg-gray-200 font-mono"
+            className="form-select rounded-lg font-mono"
             defaultValue={"DEFAULT"}
           >
             <option value="DEFAULT" disabled hidden>
@@ -81,35 +98,35 @@ function transaction() {
             </option>
             <option
               disabled
-              className="bg-yellow-500 font-mono text-sm text-gray-700 font-semibold"
+              className="bg-yellow-600 font-mono text-sm text-gray-300 font-semibold uppercase"
             >
               ACCOUNTS
             </option>
             {accounts.map((account, key) => (
-              <option className="bg-blue-300 text-gray-700" key={account}>
+              <option className="bg-gray-200 text-gray-600" key={account}>
                 {account}
               </option>
             ))}
             <option
               disabled
-              className="bg-yellow-500 font-mono text-sm text-gray-700 font-semibold"
+              className="bg-yellow-600 font-mono text-sm text-gray-300 font-semibold uppercase"
             >
               CARDS
             </option>
             {cards.map((card, key) => (
-              <option className="bg-blue-300 text-gray-700" key={card}>
+              <option className="bg-gray-200 text-gray-600" key={card}>
                 {card}
               </option>
             ))}
           </select>
         </div>
-        <div className="px-4 py-2">
+        <div className="flex flex-col px-4 py-2">
           <label htmlFor="amount" className="text-gray-200">
             Enter the Amount
           </label>
           <input
             type="text"
-            className="form-input w-full px-4 py-2 rounded-lg bg-gray-200 border focus:border-blue-500 focus:bg-white focus:outline-none"
+            className="form-input rounded-lg"
             id="amount"
             name="amount"
             placeholder="Amount"
@@ -118,27 +135,27 @@ function transaction() {
             required
           />
         </div>
-        <div className="px-4 py-2">
+        <div className="flex flex-col px-4 py-2">
           <label htmlFor="description" className="text-gray-200">
             Enter the Description
           </label>
           <div>
             <textarea
               name="description"
-              className="form-textarea w-full px-4 rounded-lg bg-gray-200 border focus:border-blue-500 focus:bg-white focus:outline-none"
+              className="form-textarea rounded-lg"
               rows="1"
               placeholder="Transaction Description"
               required
             ></textarea>
           </div>
         </div>
-        <div className="px-4 py-2">
+        <div className="flex flex-col px-4 py-2">
           <label htmlFor="category" className="text-gray-200">
             Select the Category
           </label>
           <select
             name="category"
-            className="form-select block w-full px-4 rounded-lg bg-gray-200 font-mono"
+            className="form-select block rounded-lg font-mono"
             defaultValue={"DEFAULT"}
           >
             <option value="DEFAULT" disabled hidden>
@@ -146,29 +163,23 @@ function transaction() {
             </option>
             <option
               disabled
-              className="bg-yellow-500 font-mono text-sm text-gray-700 font-semibold"
+              className="bg-yellow-600 font-mono text-sm text-gray-300 font-semibold uppercase"
             >
               INCOME CATEGORIES
             </option>
             {incomeCategories.map((income, key) => (
-              <option
-                className="bg-blue-300 text-gray-700 font-mono text-md"
-                key={income}
-              >
+              <option className="bg-gray-200 text-gray-600" key={income}>
                 {income}
               </option>
             ))}
             <option
               disabled
-              className="bg-yellow-500 font-mono text-sm text-gray-700 font-semibold"
+              className="bg-yellow-600 font-mono text-sm text-gray-300 font-semibold uppercase"
             >
               EXPENSE CATEGORIES
             </option>
             {expenseCategories.map((expense, key) => (
-              <option
-                className="bg-blue-300 text-gray-700 font-mono text-md"
-                key={expense}
-              >
+              <option className="bg-gray-200 text-gray-600" key={expense}>
                 {expense}
               </option>
             ))}
@@ -176,8 +187,8 @@ function transaction() {
         </div>
         <button
           type="submit"
-          className="block w-full text-white font-mono font-semibold rounded-lg text-lg
-          px-4 py-2 bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 "
+          className="text-gray-200 font-mono font-bold uppercase rounded-lg 
+          px-4 m-6 bg-blue-800 hover:bg-blue-300 hover:text-gray-500 items-end justify-items-end"
         >
           Add Transaction
         </button>

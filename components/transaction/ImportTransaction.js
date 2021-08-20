@@ -1,10 +1,13 @@
 import moment from "moment";
 import XLSX from "xlsx";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import FormData from "form-data";
 
-function ImportTransaction({ userconfig, setuserconfig, showmenu }) {
+function ImportTransaction() {
   const [selectedfile, setselectedfile] = useState("");
+  const accounts = useSelector((state) => state.user.accounts);
+  const cards = useSelector((state) => state.user.cards);
 
   function onChangeHandler(event) {
     setselectedfile(event.target.files[0]);
@@ -39,11 +42,7 @@ function ImportTransaction({ userconfig, setuserconfig, showmenu }) {
   }
 
   return (
-    <form
-      className={
-        "mt-3 " + (showmenu == "ImportTransaction" ? "block" : "hidden")
-      }
-    >
+    <form className="mt-3">
       <div className="grid grid-flow-col gap-2 mb-2 mt-2 items-center justify-center bg-grey-lighter">
         <label className="w-128 flex flex-row items-center justify-center justify-items-center px-2 py-2 bg-blue-100 text-gray-900 rounded-lg shadow-lg tracking-wide uppercase border border-blue cursor-pointer hover:bg-blue-200 hover:text-gray-800 select-none">
           <select
@@ -60,7 +59,7 @@ function ImportTransaction({ userconfig, setuserconfig, showmenu }) {
             >
               ACCOUNTS
             </option>
-            {userconfig.accounts.map((account, key) => (
+            {accounts.map((account, key) => (
               <option className="bg-blue-300 text-gray-700" key={account}>
                 {account}
               </option>
@@ -71,7 +70,7 @@ function ImportTransaction({ userconfig, setuserconfig, showmenu }) {
             >
               CARDS
             </option>
-            {userconfig.cards.map((card, key) => (
+            {cards.map((card, key) => (
               <option className="bg-blue-300 text-gray-700" key={card}>
                 {card}
               </option>

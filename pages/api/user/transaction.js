@@ -18,6 +18,7 @@ export default async function handler(req, res) {
         amount: req.body.amount,
         category: req.body.category,
         doc_type: "transaction",
+        transaction_type: req.body.transactionType,
       });
       if (response.ok) {
         console.log(`Reponse OK`);
