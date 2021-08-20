@@ -1,20 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./userSlice";
 import appConfigSlice from "./appConfigSlice";
-import transactionsSlice from "./transactionsSlice";
-import categoryWiseAmountsSlice from "./categoryWiseAmountsSlice";
-import monthlyTransactionsSlice from "./monthlyTransactionsSlice";
-import topTransactionsSlice from "./topTransactionsSlice";
-import uncategorizedTransactionsSlice from "./uncategorizedTransactionsSlice";
+import homeSlice from "./homeSlice";
 
 export const store = configureStore({
   reducer: {
     user: userSlice,
     appConfig: appConfigSlice,
-    transactions: transactionsSlice,
-    categoryWiseAmounts: categoryWiseAmountsSlice,
-    monthlyTransactions: monthlyTransactionsSlice,
-    topTransaction: topTransactionsSlice,
-    uncategorizedTransactions: uncategorizedTransactionsSlice,
+    home: homeSlice,
   },
 });

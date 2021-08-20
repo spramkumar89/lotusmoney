@@ -4,8 +4,6 @@ import { getSession } from "next-auth/client";
 const initialState = {
   _id: "appConfig",
   docType: "appConfig",
-  availableMonths: [],
-  selectedMonth: "",
   incomeCategories: [],
   expenseCategories: [],
   goals: [],
