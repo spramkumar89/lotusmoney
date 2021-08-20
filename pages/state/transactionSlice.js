@@ -2,15 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getSession } from "next-auth/client";
 
 const initialState = {
-  _id: "appConfig",
-  docType: "appConfig",
-  incomeCategories: [],
-  expenseCategories: [],
-  goals: [],
+  transactions: [],
+  addTransaction: true,
+  importTransaction: false,
+  filterTransaction: false,
 };
 
 export const updateAppConfig = createAsyncThunk(
-  "appConfig/update",
+  "transaction/update",
   async (args, { dispatch, getState }) => {
     const session = await getSession();
     const appConfigRecord = getState().appConfig;
@@ -44,63 +43,30 @@ export const updateAppConfig = createAsyncThunk(
     dispatch(updateAppConfigRevision(appConfigRecordResponse_JSON));
   }
 );
-
-export const loadAppConfig = createAsyncThunk(
-  "appConfig/load",
-  async (args, { dispatch, getState }) => {
-    const session = await getSession();
-    console.log(`Home page session values ${JSON.stringify(session)}`);
-    const apiConfigs = await fetch(
-      "/api/settings/appConfig?" +
-        new URLSearchParams({ name: session.user.name.toLowerCase() }),
-      { method: "GET" }
-    );
-    if (!apiConfigs.ok) {
-      console.log(`App config API error has occured: ${apiConfigs}`);
-    }
-    let apiConfigs_JSON = await apiConfigs.json();
-    console.log(
-      `Loading apiConfig record : ${JSON.stringify(apiConfigs_JSON)}`
-    );
-
-    dispatch(loadAppConfigState(apiConfigs_JSON));
-  }
-);
-
 export const appConfigSlice = createSlice({
-  name: "appConfig",
+  name: "transaction",
   initialState,
   reducers: {
-    loadAppConfigState: (state, action) => {
-      return action.payload;
+    updateAddButton: (state, action) => {
+      state.addTransaction = !state.addTransaction;
     },
-    updateAppConfigRevision: (state, action) => {
-      state._rev = action.payload.rev;
+    updateImportButton: (state, action) => {
+      state.importTransaction = !state.importTransaction;
     },
-    addIncomeCategory: (state, action) => {
-      state.incomeCategories.push(action.payload);
-    },
-    addExpenseCategory: (state, action) => {
-      state.expenseCategories.push(action.payload);
-    },
-    addGoal: (state, action) => {
-      state.goals.push(action.payload);
+    updateFilterButton: (state, action) => {
+      state.filterTransaction = !state.filterTransaction;
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(updateAppConfig.fulfilled, (state, action) => {
-        return action.payload;
-      })
-      .addCase(loadAppConfig.fulfilled, (state, action) => {
-        return action.payload;
-      });
+    builder.addCase(updateAppConfig.fulfilled, (state, action) => {
+      return action.payload;
+    });
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
-  loadAppConfigState,
+  loadAppConfig,
   updateAppConfigRevision,
   addIncomeCategory,
   addExpenseCategory,

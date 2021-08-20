@@ -47,7 +47,7 @@ function transaction({ category }) {
       <NavBar />
 
       <main className="bg-gray-50 h-screen">
-        <div className="flex flex-row py-6 sm:px-6 lg:px-8 h-full">
+        <div className="flex flex-col md:flex-row py-6 sm:px-6 lg:px-8 h-full">
           <div className="bg-blue-300 w-1/4">
             <div className="flex flex-col pt-4">
               <div

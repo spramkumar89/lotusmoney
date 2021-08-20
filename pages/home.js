@@ -5,7 +5,9 @@ import Categories from "../components/home/Categories";
 import Chart from "../components/home/Chart";
 import Transactions from "../components/home/Transactions";
 import Uncategorized from "../components/home/Uncategorized";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { loadUser } from "./state/userSlice";
+import { loadAppConfig } from "./state/appConfigSlice";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -15,15 +17,14 @@ import {
   updateCategoryWiseAmounts,
   updateUncategorizedTransactions,
 } from "../pages/state/homeSlice";
-import { signIn, signOut, useSession, getSession } from "next-auth/client";
 
 export default function home() {
-  const router = useRouter();
   const dispatch = useDispatch();
-  let availableMonths = useSelector((state) => state.home.availableMonths);
   let selectedMonth = useSelector((state) => state.home.selectedMonth);
 
   useEffect(() => {
+    dispatch(loadUser());
+    dispatch(loadAppConfig());
     dispatch(updateAvailableMonths());
   }, []);
 
