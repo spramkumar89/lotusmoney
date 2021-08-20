@@ -60,7 +60,7 @@ export default function home() {
 
   return (
     <div>
-      <NavBar />
+      <NavBar showMonth={true} />
       <div className="border border-t-2 border-blue-300"></div>
 
       <main className="bg-gray-50">

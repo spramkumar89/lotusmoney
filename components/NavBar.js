@@ -34,12 +34,14 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-function navbar() {
+function navbar({ showMonth }) {
   const dispatch = useDispatch();
   let availableMonths = useSelector((state) => state.home.availableMonths);
   availableMonths = availableMonths.slice().sort().reverse();
   console.log(
-    `NavBar Session inside component ${JSON.stringify(availableMonths)}`
+    `NavBar Session inside component ${JSON.stringify(
+      availableMonths
+    )} : showMonth : ${showMonth}`
   );
   const router = useRouter();
 
@@ -125,21 +127,25 @@ function navbar() {
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
-                    <select
-                      name="account"
-                      className="form-select mr-4 my-4 h-10 rounded-lg bg-gray-200 font-mono"
-                      defaultValue={"DEFAULT"}
-                      onChange={onMonthChange}
-                    >
-                      {availableMonths.map((item, itemIdx) => (
-                        <option
-                          className="bg-blue-300 text-gray-700"
-                          key={itemIdx}
-                        >
-                          {`${monthsarr[parseInt(item.key[0])]} ${item.key[1]}`}
-                        </option>
-                      ))}
-                    </select>
+                    {showMonth && (
+                      <select
+                        name="account"
+                        className="form-select mr-4 my-4 h-10 rounded-lg bg-gray-200 font-mono"
+                        defaultValue={"DEFAULT"}
+                        onChange={onMonthChange}
+                      >
+                        {availableMonths.map((item, itemIdx) => (
+                          <option
+                            className="bg-blue-300 text-gray-700"
+                            key={itemIdx}
+                          >
+                            {`${monthsarr[parseInt(item.key[0])]} ${
+                              item.key[1]
+                            }`}
+                          </option>
+                        ))}
+                      </select>
+                    )}
 
                     <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                       <span className="sr-only">View notifications</span>
