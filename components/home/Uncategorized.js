@@ -1,4 +1,9 @@
-function uncategorized({ uncategorizedTransactions }) {
+import { useSelector } from "react-redux";
+
+function uncategorized() {
+  const uncategorizedTransactions = useSelector(
+    (state) => state.home.uncategorizedTransactions
+  );
   return (
     <div className="grid grid-flow-row gap-4">
       <div className="bg-gray-200 rounded-lg shadow-lg p-2">

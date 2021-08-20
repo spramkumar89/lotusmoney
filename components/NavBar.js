@@ -2,8 +2,10 @@ import Head from "next/head";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
-import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/client";
+import { useSelector, useDispatch } from "react-redux";
+import { updateSelectedMonth } from "../pages/state/homeSlice";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 const navigation = ["Home", "Transaction", "Reports", "Settings"];
@@ -32,15 +34,20 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-function navbar({ months, selectedmonth, setselectedmonth }) {
-  const [session] = useSession();
-  console.log(`NavBar Session inside component ${JSON.stringify(months)}`);
+function navbar({ showMonth }) {
+  const dispatch = useDispatch();
+  let availableMonths = useSelector((state) => state.home.availableMonths);
+  availableMonths = availableMonths.slice().sort().reverse();
+  console.log(
+    `NavBar Session inside component ${JSON.stringify(
+      availableMonths
+    )} : showMonth : ${showMonth}`
+  );
   const router = useRouter();
 
   function onMonthChange(event) {
     console.log("Inside the month change method : " + event.target.value);
-    sessionStorage.setItem("selectedmonth", event.target.value);
-    setselectedmonth(event.target.value);
+    dispatch(updateSelectedMonth(event.target.value));
   }
 
   return (
@@ -120,21 +127,25 @@ function navbar({ months, selectedmonth, setselectedmonth }) {
                 </div>
                 <div className="hidden md:block">
                   <div className="ml-4 flex items-center md:ml-6">
-                    <select
-                      name="account"
-                      className="form-select mr-4 my-4 h-10 rounded-lg bg-gray-200 font-mono"
-                      defaultValue={"DEFAULT"}
-                      onChange={onMonthChange}
-                    >
-                      {months.map((item, itemIdx) => (
-                        <option
-                          className="bg-blue-300 text-gray-700"
-                          key={itemIdx}
-                        >
-                          {`${monthsarr[parseInt(item.key[0])]} ${item.key[1]}`}
-                        </option>
-                      ))}
-                    </select>
+                    {showMonth && (
+                      <select
+                        name="account"
+                        className="form-select mr-4 my-4 h-10 rounded-lg bg-gray-200 font-mono"
+                        defaultValue={"DEFAULT"}
+                        onChange={onMonthChange}
+                      >
+                        {availableMonths.map((item, itemIdx) => (
+                          <option
+                            className="bg-blue-300 text-gray-700"
+                            key={itemIdx}
+                          >
+                            {`${monthsarr[parseInt(item.key[0])]} ${
+                              item.key[1]
+                            }`}
+                          </option>
+                        ))}
+                      </select>
+                    )}
 
                     <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                       <span className="sr-only">View notifications</span>

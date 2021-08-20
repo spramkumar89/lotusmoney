@@ -6,7 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function AddButton({ userconfig, setuserconfig }) {
+export default function AddButton() {
   const navigation = [
     "Add Account",
     "Add Card",
@@ -79,13 +79,7 @@ export default function AddButton({ userconfig, setuserconfig }) {
         </Transition>
       </Menu>
 
-      <AddModal
-        isOpen={isOpen}
-        title={title}
-        setIsOpen={setIsOpen}
-        setuserconfig={setuserconfig}
-        userconfig={userconfig}
-      />
+      <AddModal isOpen={isOpen} title={title} setIsOpen={setIsOpen} />
     </div>
   );
 }

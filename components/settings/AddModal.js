@@ -1,82 +1,40 @@
 import { Dialog, Transition } from "@headlessui/react";
-import router from "next/router";
-import { Fragment, useState, useCallback } from "react";
-import { getSession } from "next-auth/client";
-import { cloneDeep } from "lodash";
+import { Fragment } from "react";
+import { useDispatch } from "react-redux";
+import { updateUser, addAccount, addCard } from "../../pages/state/userSlice";
+import {
+  updateAppConfig,
+  addIncomeCategory,
+  addExpenseCategory,
+  addGoal,
+} from "../../pages/state//appConfigSlice";
 
-export default function MyModal({
-  title,
-  isOpen,
-  setIsOpen,
-  userconfig,
-  setuserconfig,
-}) {
-  const saveToDatabase = async (label, userconfig) => {
-    const session = await getSession();
-    console.log(
-      `Modal title ${title} updating the db now : ${JSON.stringify(userconfig)}`
-    );
-    if (title == "Add Account") {
-      userconfig.accounts.push(label);
-    } else if (title == "Add Card") {
-      userconfig.cards.push(label);
-    } else if (title == "Add Income Category") {
-      userconfig.incomeCategories.push(label);
-    } else if (title == "Add Goals") {
-      userconfig.goals.push(label);
-    } else {
-      userconfig.expenseCategories.push(label);
-    }
-
-    // Loading USER_SETTINGS
-    const userConfigs = await fetch(
-      "/api/settings/updateuserconfig?" +
-        new URLSearchParams({
-          name: session.user.name.toLowerCase(),
-        }),
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userconfig,
-        }),
-      }
-    );
-    if (!userConfigs.ok) {
-      console.log(
-        `User config API error has occured: ${JSON.stringify(userConfigs)}`
-      );
-    }
-    const userConfigs_JSON = await userConfigs.json();
-    console.log(
-      `userConfigs_JSON update response : ${JSON.stringify(userConfigs_JSON)}`
-    );
-    userconfig._rev = userConfigs_JSON.rev;
-    console.log(
-      `*******************userconfig update response : ${JSON.stringify(
-        userconfig
-      )}`
-    );
-    setuserconfig(cloneDeep(userconfig));
-    setIsOpen(false);
-  };
+export default function MyModal({ title, isOpen, setIsOpen }) {
+  const dispatch = useDispatch();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    let label = event.target.category.value;
     console.log("Button clicked : " + event.target.category.value);
-    console.log("**********userconfig : " + JSON.stringify(userconfig));
-    console.log("Title : " + title);
-    saveToDatabase(event.target.category.value, userconfig);
-  };
+    if (title == "Add Account") {
+      dispatch(addAccount(label));
+      dispatch(updateUser(label));
+    } else if (title == "Add Card") {
+      dispatch(addCard(label));
+      dispatch(updateUser(label));
+    } else if (title == "Add Income Category") {
+      dispatch(addIncomeCategory(label));
+      dispatch(updateAppConfig(label));
+    } else if (title == "Add Goals") {
+      dispatch(addGoal(label));
+      dispatch(updateAppConfig(label));
+    } else {
+      dispatch(addExpenseCategory(label));
+      dispatch(updateAppConfig(label));
+    }
 
-  function closeModal() {
     setIsOpen(false);
-  }
-
-  function openModal() {
-    setIsOpen(true);
-  }
+  };
 
   return (
     <>
@@ -84,7 +42,7 @@ export default function MyModal({
         <Dialog
           as="div"
           className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
+          onClose={() => setIsOpen(false)}
         >
           <div className="min-h-screen px-4 text-center">
             <Transition.Child

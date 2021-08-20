@@ -11,6 +11,7 @@
     "@headlessui/react": "^1.2.0",
     "@heroicons/react": "^1.0.1",
     "@popperjs/core": "^2.9.2",
+    "@reduxjs/toolkit": "^1.6.1",
     "@tailwindcss/forms": "^0.3.3",
     "base-64": "^1.0.0",
     "chart.js": "^3.3.2",
@@ -24,6 +25,7 @@
     "react-chartjs-2": "^3.0.3",
     "react-dom": "17.0.2",
     "react-popper": "^2.2.5",
+    "react-redux": "^7.2.4",
     "sib-api-v3-sdk": "^8.2.0",
     "xlsx": "^0.17.0"
   },

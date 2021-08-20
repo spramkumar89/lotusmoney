@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Pie, Doughnut } from "react-chartjs-2";
 
 const incomeOptions = {
@@ -28,11 +29,14 @@ const expenseOptions = {
   },
 };
 
-function chart({ transactions }) {
+function chart() {
+  const monthlyTransactions = useSelector(
+    (state) => state.home.monthlyTransactions
+  );
   let chartLabels = [];
   let chartData = [];
 
-  transactions.map((trans) => {
+  monthlyTransactions.map((trans) => {
     chartLabels.push(trans.value.description);
     chartData.push(trans.value.amount);
   });
