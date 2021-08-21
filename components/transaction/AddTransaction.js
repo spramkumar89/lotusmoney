@@ -156,9 +156,9 @@ function transaction() {
             <select
               name="category"
               className="form-select block rounded-lg font-mono"
-              defaultValue={"DEFAULT"}
+              defaultValue={"Uncategorized"}
             >
-              <option value="DEFAULT" disabled hidden>
+              <option value="Uncategorized" disabled hidden>
                 Select the category
               </option>
               <option

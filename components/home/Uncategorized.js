@@ -11,7 +11,7 @@ function uncategorized() {
       </div>
 
       {uncategorizedTransactions.map((trans, key) => (
-        <div className="flex justify-between items-center px-2" key={key}>
+        <div className="flex justify-between items-center px-2 py-1" key={key}>
           <div className="flex-initial w-3/4 font-mono">
             {trans.value.description}
           </div>

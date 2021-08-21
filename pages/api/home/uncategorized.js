@@ -6,19 +6,19 @@ export default async function handler(req, res) {
       let uncategorized_res = await fetch(
         `${process.env.DBURL}/${
           req.query.name
-        }/_design/lotus/_view/monthlycategories?key=["${
-          req.query.year
-        }","${("0" + (parseInt(req.query.month) + 1)).slice(
-          -2
-        )}","Uncategorised"]&reduce=false`
+        }/_design/lotus/_view/monthlycategories?key=["${req.query.year}","${(
+          "0" +
+          (parseInt(req.query.month) + 1)
+        ).slice(-2)}","Uncategorized"]&reduce=false`
       );
-      console.log(`${process.env.DBURL}/${
+      console.log(
+        `${process.env.DBURL}/${
           req.query.name
-        }/_design/lotus/_view/monthlycategories?key=["${
-          req.query.year
-        }","${("0" + (parseInt(req.query.month) + 1)).slice(
-          -2
-        )}","Uncategorised"]&reduce=false`);
+        }/_design/lotus/_view/monthlycategories?key=["${req.query.year}","${(
+          "0" +
+          (parseInt(req.query.month) + 1)
+        ).slice(-2)}","Uncategorized"]&reduce=false`
+      );
       if (!uncategorized_res.ok) {
         uncategorized_res.rows = "NO_TRANSACTIONS_AVAILABLE";
         console.log(
@@ -26,7 +26,9 @@ export default async function handler(req, res) {
         );
         res.status(400).json(uncategorized_res);
       }
-
+      console.log(
+        `Uncategorized Response : ${JSON.stringify(uncategorized_res)}`
+      );
       const uncategorized = await uncategorized_res.json();
       res.status(200).json(uncategorized);
       break;
