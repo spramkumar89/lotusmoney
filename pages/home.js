@@ -64,8 +64,8 @@ export default function home() {
       <NavBar showMonth={true} />
       <div className="border border-t-2 border-blue-300"></div>
 
-      <main className="bg-gray-50 h-screen">
-        <div className="max-w-7xl mx-auto py-2 sm:px-6 lg:px-8">
+      <main className="bg-gray-50 max-w-7xl mx-auto py-2 ">
+        <div className="">
           <div className="flex flex-row text-gray-600">
             <div className="flex-none w-1/4 hidden md:block m-2">
               <div className="grid grid-flow-row gap-4">
