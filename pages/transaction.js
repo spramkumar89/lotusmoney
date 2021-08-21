@@ -23,31 +23,31 @@ function transaction({ category }) {
     <div>
       <NavBar />
 
-      <main className="bg-gray-50 h-screen">
-        <div className="flex flex-col md:flex-row py-6 sm:px-6 lg:px-8 h-full">
-          <div className="bg-blue-300 w-1/4">
+      <main className="bg-gray-50 h-full">
+        <div className="flex flex-col md:flex-row py-6 px-6 max-h-full">
+          <div className="bg-gray-600 md:w-1/4 rounded-l-lg shadow-lg">
             <div className="flex flex-col pt-4">
               <div
-                className="font-mono text-lg m-2 px-2 bg-yellow-500 hover:bg-yellow-200 rounded-md shadow-md text-gray-900"
+                className="font-mono text-lg mx-4 my-2 px-2 bg-yellow-500 hover:bg-yellow-200 rounded-md shadow-md text-gray-900"
                 onClick={() => dispatch(updateAddButton())}
               >
                 AddTransaction
               </div>
               <div
-                className="font-mono text-lg m-2 px-2 bg-yellow-500 hover:bg-yellow-200 rounded-md shadow-md text-gray-900"
+                className="font-mono text-lg mx-4 my-2 px-2 bg-yellow-500 hover:bg-yellow-200 rounded-md shadow-md text-gray-900"
                 onClick={() => dispatch(updateImportButton())}
               >
                 ImportTransaction
               </div>
               <div
-                className="font-mono text-lg m-2 px-2 bg-yellow-500 hover:bg-yellow-200 rounded-md shadow-md text-gray-900"
+                className="font-mono text-lg mx-4 my-2 px-2 bg-yellow-500 hover:bg-yellow-200 rounded-md shadow-md text-gray-900"
                 onClick={() => dispatch(updateFilterButton())}
               >
                 FilterTransaction
               </div>
             </div>
           </div>
-          <div className="bg-blue-600 w-3/4 p-4">
+          <div className="bg-gray-400 md:w-3/4 p-4 rounded-r-lg shadow-lg">
             {addTransactionMenu && <AddTransaction />}
             {importTransactionMenu && <ImportTransaction />}
 
