@@ -8,21 +8,21 @@ function transactions() {
     `Transactions in component ${JSON.stringify(monthlyTransactions)}`
   );
   return (
-    <div className="bg-gray-200 rounded-lg shadow-lg p-2">
+    <div className="bg-gray-200 rounded-lg shadow-lg">
       <table className="table-auto w-full">
-        {/* <thead>
-      <tr className="border-b-2 border-gray-300">
-        <th>Title</th>
-        <th>Author</th>
-        <th>Views</th>
-      </tr>
-    </thead> */}
+        <thead>
+          <tr className="font-mono text-gray-200 bg-yellow-600 p-3">
+            <th className="">Transaction Date</th>
+            <th className="">Description</th>
+            <th className="">Amount</th>
+          </tr>
+        </thead>
         <tbody>
           {monthlyTransactions.map((trans, key) => (
-            <tr className="border-b-2 border-gray-200 px-3" key={key}>
-              <td>{trans.value.date}</td>
-              <td>{trans.value.description}</td>
-              <td>{trans.value.amount}</td>
+            <tr className="p-3" key={key}>
+              <td className="pl-4 font-mono">{trans.value.date}</td>
+              <td className="font-mono">{trans.value.description}</td>
+              <td className="font-mono">{trans.value.amount}</td>
             </tr>
           ))}
         </tbody>

@@ -2,59 +2,16 @@ import NavBar from "../components/NavBar";
 import SettingCard from "../components/settings/SettingCard";
 import AddButton from "../components/settings/AddButton";
 import { useEffect } from "react";
-import { getSession } from "next-auth/client";
-import { useSelector, useDispatch } from "react-redux";
-import { loadUserState } from "./state/userSlice";
+import { useDispatch } from "react-redux";
+import { loadUser } from "./state/userSlice";
 import { loadAppConfig } from "./state/appConfigSlice";
 
 export default function home() {
   const dispatch = useDispatch();
-  const incomeCategories = useSelector(
-    (state) => state.appConfig.incomeCategories
-  );
-  const expenseCategories = useSelector(
-    (state) => state.appConfig.expenseCategories
-  );
-  const goals = useSelector((state) => state.appConfig.goals);
-  const accounts = useSelector((state) => state.user.accounts);
-  const cards = useSelector((state) => state.user.cards);
 
-  //Loading User Accounts and Cards
-  useEffect(async () => {
-    const session = await getSession();
-    console.log(`Home page session values ${JSON.stringify(session)}`);
-    const userConfigs = await fetch(
-      "/api/settings/user?" +
-        new URLSearchParams({ name: session.user.name.toLowerCase() }),
-      { method: "GET" }
-    );
-    if (!userConfigs.ok) {
-      console.log(`User config API error has occured: ${userConfigs}`);
-    }
-    let userConfigs_JSON = await userConfigs.json();
-    console.log(`Loading user record : ${JSON.stringify(userConfigs_JSON)}`);
-
-    dispatch(loadUserState(userConfigs_JSON));
-  }, []);
-
-  //Loading User Goals, Income/Expense Categories
-  useEffect(async () => {
-    const session = await getSession();
-    console.log(`Home page session values ${JSON.stringify(session)}`);
-    const apiConfigs = await fetch(
-      "/api/settings/appConfig?" +
-        new URLSearchParams({ name: session.user.name.toLowerCase() }),
-      { method: "GET" }
-    );
-    if (!apiConfigs.ok) {
-      console.log(`App config API error has occured: ${apiConfigs}`);
-    }
-    let apiConfigs_JSON = await apiConfigs.json();
-    console.log(
-      `Loading apiConfig record : ${JSON.stringify(apiConfigs_JSON)}`
-    );
-
-    dispatch(loadAppConfig(apiConfigs_JSON));
+  useEffect(() => {
+    dispatch(loadUser());
+    dispatch(loadAppConfig());
   }, []);
 
   return (

@@ -44,11 +44,34 @@ export const updateAppConfig = createAsyncThunk(
     dispatch(updateAppConfigRevision(appConfigRecordResponse_JSON));
   }
 );
+
+export const loadAppConfig = createAsyncThunk(
+  "appConfig/load",
+  async (args, { dispatch, getState }) => {
+    const session = await getSession();
+    console.log(`Home page session values ${JSON.stringify(session)}`);
+    const apiConfigs = await fetch(
+      "/api/settings/appConfig?" +
+        new URLSearchParams({ name: session.user.name.toLowerCase() }),
+      { method: "GET" }
+    );
+    if (!apiConfigs.ok) {
+      console.log(`App config API error has occured: ${apiConfigs}`);
+    }
+    let apiConfigs_JSON = await apiConfigs.json();
+    console.log(
+      `Loading apiConfig record : ${JSON.stringify(apiConfigs_JSON)}`
+    );
+
+    dispatch(loadAppConfigState(apiConfigs_JSON));
+  }
+);
+
 export const appConfigSlice = createSlice({
   name: "appConfig",
   initialState,
   reducers: {
-    loadAppConfig: (state, action) => {
+    loadAppConfigState: (state, action) => {
       return action.payload;
     },
     updateAppConfigRevision: (state, action) => {
@@ -65,15 +88,19 @@ export const appConfigSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(updateAppConfig.fulfilled, (state, action) => {
-      return action.payload;
-    });
+    builder
+      .addCase(updateAppConfig.fulfilled, (state, action) => {
+        return action.payload;
+      })
+      .addCase(loadAppConfig.fulfilled, (state, action) => {
+        return action.payload;
+      });
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
-  loadAppConfig,
+  loadAppConfigState,
   updateAppConfigRevision,
   addIncomeCategory,
   addExpenseCategory,

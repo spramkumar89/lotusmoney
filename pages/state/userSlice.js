@@ -45,6 +45,26 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+export const loadUser = createAsyncThunk(
+  "user/load",
+  async (args, { dispatch, getState }) => {
+    const session = await getSession();
+    console.log(`Home page session values ${JSON.stringify(session)}`);
+    const userConfigs = await fetch(
+      "/api/settings/user?" +
+        new URLSearchParams({ name: session.user.name.toLowerCase() }),
+      { method: "GET" }
+    );
+    if (!userConfigs.ok) {
+      console.log(`User config API error has occured: ${userConfigs}`);
+    }
+    let userConfigs_JSON = await userConfigs.json();
+    console.log(`Loading user record : ${JSON.stringify(userConfigs_JSON)}`);
+
+    dispatch(loadUserState(userConfigs_JSON));
+  }
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -63,9 +83,13 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(updateUser.fulfilled, (state, action) => {
-      return action.payload;
-    });
+    builder
+      .addCase(updateUser.fulfilled, (state, action) => {
+        return action.payload;
+      })
+      .addCase(loadUser.fulfilled, (state, action) => {
+        return action.payload;
+      });
   },
 });
 
