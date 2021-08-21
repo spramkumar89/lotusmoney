@@ -22,12 +22,19 @@ function LoginPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="flex flex-col justify-center items-center h-screen">
         <>
           {!session && (
             <>
-              Not signed in <br />
-              <button onClick={handleSignIn}>Sign in</button>
+              <h4 className="p-4 m-4 font-mono text-2xl font-bold uppercase">
+                Lotus Money Application
+              </h4>
+              <button
+                onClick={handleSignIn}
+                className="p-4 bg-blue-600 rounded-lg font-mono text-lg text-gray-200"
+              >
+                Sign in with Google
+              </button>
             </>
           )}
           {session && router.push("/home")}
