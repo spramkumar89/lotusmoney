@@ -16,7 +16,7 @@ import {
   updateTopTransactions,
   updateCategoryWiseAmounts,
   updateUncategorizedTransactions,
-} from "../pages/state/homeSlice";
+} from "../backend/state/homeSlice";
 
 export default function home() {
   const dispatch = useDispatch();

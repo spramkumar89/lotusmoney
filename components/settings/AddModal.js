@@ -7,7 +7,7 @@ import {
   addIncomeCategory,
   addExpenseCategory,
   addGoal,
-} from "../../pages/state//appConfigSlice";
+} from "../../backend/state/appConfigSlice";
 
 export default function MyModal({ title, isOpen, setIsOpen }) {
   const dispatch = useDispatch();
