@@ -3,8 +3,8 @@ import SettingCard from "../components/settings/SettingCard";
 import AddButton from "../components/settings/AddButton";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { loadUser } from "./state/userSlice";
-import { loadAppConfig } from "./state/appConfigSlice";
+import { loadUser } from "../backend/state/userSlice";
+import { loadAppConfig } from "../backend/state/appConfigSlice";
 
 export default function home() {
   const dispatch = useDispatch();

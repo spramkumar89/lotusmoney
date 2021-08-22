@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useDispatch } from "react-redux";
-import { updateUser, addAccount, addCard } from "../../pages/state/userSlice";
+import { updateUser, addAccount, addCard } from "../../backend/state/userSlice";
 import {
   updateAppConfig,
   addIncomeCategory,

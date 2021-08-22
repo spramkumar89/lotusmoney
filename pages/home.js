@@ -6,8 +6,8 @@ import Chart from "../components/home/Chart";
 import Transactions from "../components/home/Transactions";
 import Uncategorized from "../components/home/Uncategorized";
 import { useEffect } from "react";
-import { loadUser } from "./state/userSlice";
-import { loadAppConfig } from "./state/appConfigSlice";
+import { loadUser } from "../backend/state/userSlice";
+import { loadAppConfig } from "../backend/state/appConfigSlice";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import {
