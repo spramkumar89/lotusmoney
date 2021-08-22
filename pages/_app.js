@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import { Provider as NextAuthProvider } from "next-auth/client";
 import { Provider } from "react-redux";
-import { store } from "./state";
+import { store } from "../backend/state";
 
 function MyApp({ Component, pageProps }) {
   return (

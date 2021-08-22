@@ -6,7 +6,7 @@ import {
   updateAddButton,
   updateImportButton,
   updateFilterButton,
-} from "../pages/state/transactionSlice";
+} from "../backend/state/transactionSlice";
 
 function transaction({ category }) {
   const dispatch = useDispatch();

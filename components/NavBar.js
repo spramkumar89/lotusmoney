@@ -4,7 +4,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import { signIn, signOut, useSession } from "next-auth/client";
 import { useSelector, useDispatch } from "react-redux";
-import { updateSelectedMonth } from "../pages/state/homeSlice";
+import { updateSelectedMonth } from "../backend/state/homeSlice";
 import { useRouter } from "next/router";
 import Link from "next/link";
 

@@ -1,13 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useDispatch } from "react-redux";
-import { updateUser, addAccount, addCard } from "../../pages/state/userSlice";
+import { updateUser, addAccount, addCard } from "../../backend/state/userSlice";
 import {
   updateAppConfig,
   addIncomeCategory,
   addExpenseCategory,
   addGoal,
-} from "../../pages/state//appConfigSlice";
+} from "../../backend/state/appConfigSlice";
 
 export default function MyModal({ title, isOpen, setIsOpen }) {
   const dispatch = useDispatch();
