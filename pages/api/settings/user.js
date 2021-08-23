@@ -4,6 +4,9 @@ export default async function handler(req, res) {
   let response = {};
   switch (req.method) {
     case "GET":
+      console.log(
+        `Prod URL : ${process.env.DBURL}/${req.query.name}/userconfig`
+      );
       let userConfig = await fetch(
         `${process.env.DBURL}/${req.query.name}/userconfig`
       );
