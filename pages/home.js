@@ -66,8 +66,8 @@ export default function home() {
 
       <main className="bg-gray-50 max-w-7xl mx-auto py-2 ">
         <div className="">
-          <div className="flex flex-row text-gray-600">
-            <div className="flex-none w-1/4 hidden md:block m-2">
+          <div className="flex flex-col lg:flex-row text-gray-600">
+            <div className="flex-none w-full lg:w-1/4 m-2">
               <div className="grid grid-flow-row gap-4">
                 <TopTransactions />
                 <Categories />
@@ -79,7 +79,7 @@ export default function home() {
                 <Transactions />
               </div>
             </div>
-            <div className="flex-none w-1/4 hidden md:block p-2">
+            <div className="flex-none w-full lg:w-1/4 p-2">
               <Uncategorized />
             </div>
           </div>
